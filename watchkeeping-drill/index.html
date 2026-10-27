@@ -3956,7 +3956,7 @@ function renderTopbar(){
 function renderFoot(){
   const txt=SYNC==="account"?"Progress saved to your account":"Progress saved on this device";
   const f=document.getElementById("foot");
-  if(f)f.innerHTML=`<span>Unofficial study aid, not RNLI or RYA course material</span><span>${txt}</span><a class="footlink" href="/" target="_top">kieranmurphy.ie</a>`;
+  if(f)f.innerHTML=`<span>Unofficial study aid, not RNLI or RYA course material</span><span>${txt}</span><a class="footlink" href="../" target="_top">kieranmurphy.ie</a>`;
 }
 
 function topicsLine(){
@@ -3986,7 +3986,7 @@ function renderHome(){
   const hint=PREFS.mode==="cards"?`Flip each card, then rate it. <button class="link" type="button" id="guideLink">How it works</button>`
     :scen?"Read the picture, then decide what to do.":spot?"See a buoy, name the mark.":"Pick the right answer from four options.";
   $view().innerHTML=`
-  <nav class="sitebar" aria-label="Back"><a class="sitelink" href="/" target="_top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back to kieranmurphy.ie</a></nav>
+  <nav class="sitebar" aria-label="Back"><a class="sitelink" href="../" target="_top"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back to kieranmurphy.ie</a></nav>
   <section class="hero" aria-labelledby="heroTitle">
     <div class="hero-top">
       <div class="hero-txt">
@@ -4028,7 +4028,7 @@ function renderHome(){
   /* came from kieranmurphy.ie? go back to the page they left, so their place on the site is kept; otherwise open the home page */
   const sl=document.querySelector(".sitelink");
   if(sl)sl.onclick=e=>{try{const r=document.referrer?new URL(document.referrer):null;
-    if(r&&r.origin===location.origin&&history.length>1){e.preventDefault();history.back();}}catch(err){}};
+    if(r&&r.origin===location.origin&&r.pathname.indexOf(location.pathname.replace(/[^/]*$/,""))!==0&&history.length>1){e.preventDefault();history.back();}}catch(err){}};
 }
 
 /* ---- modal sheets: Course, Cards per round, Topics, Progress by topic, About ---- */

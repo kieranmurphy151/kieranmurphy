@@ -1465,7 +1465,7 @@ function renderToday() {
   const dateLabel = now.toLocaleDateString("en-IE", { weekday: "long", day: "numeric", month: "short" });
   const goalText = done >= goal ? "Daily goal done!" : done ? `${goal - done} more for today's goal` : `${goal} quick bites today`;
   $("#tab-today").innerHTML = `<div class="wrap screen-in">
-    <nav class="sitebar" aria-label="Back"><a class="sitelink" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back to kieranmurphy.ie</a></nav><header class="hdr"><div><h1>Today</h1><p>${esc(dateLabel)} · ${esc(ph.name)} phase</p></div>${S.settings.streak ? `<button class="streak ${st ? "" : "cold"}" type="button" id="streakBtn" aria-label="${st}-day streak">${FLAME}${st}</button>` : ""}</header>
+    <nav class="sitebar" aria-label="Back"><a class="sitelink" href="../"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back to kieranmurphy.ie</a></nav><header class="hdr"><div><h1>Today</h1><p>${esc(dateLabel)} · ${esc(ph.name)} phase</p></div>${S.settings.streak ? `<button class="streak ${st ? "" : "cold"}" type="button" id="streakBtn" aria-label="${st}-day streak">${FLAME}${st}</button>` : ""}</header>
     <div class="goal">
       <div class="ring ${sess.goalPop ? "pop" : ""}">${ringSegs(done, goal)}<div class="lbl">${done}<small>of ${goal}</small></div></div>
       <div class="goal-t"><b>${esc(goalText)}</b><div class="week" aria-label="This week">${week.join("")}</div></div>
@@ -1543,7 +1543,7 @@ function renderYou() {
         <div id="bkBox"></div>
       </div>
       <p class="group-h">ABOUT</p>
-      <div class="group"><button class="li" type="button" id="howBtn"><div><b>How this works</b><small>The research behind it, and the GAMSAT format</small></div>${CHEV}</button><a class="li" href="/" style="text-decoration:none;font-weight:400"><div><b>kieranmurphy.ie</b><small>Portfolios and the other revision apps</small></div>${CHEV}</a><button class="li" type="button" id="legalBtn"><div><b>Disclaimer and privacy</b><small>Independent study aid, not affiliated with ACER</small></div>${CHEV}</button></div>
+      <div class="group"><button class="li" type="button" id="howBtn"><div><b>How this works</b><small>The research behind it, and the GAMSAT format</small></div>${CHEV}</button><a class="li" href="../" style="text-decoration:none;font-weight:400"><div><b>kieranmurphy.ie</b><small>Portfolios and the other revision apps</small></div>${CHEV}</a><button class="li" type="button" id="legalBtn"><div><b>Disclaimer and privacy</b><small>Independent study aid, not affiliated with ACER</small></div>${CHEV}</button></div>
       <div class="confirm" id="resetBox" style="margin:16px 4px 8px"><button class="tbtn muted" type="button" id="resetBtn">Reset all progress</button></div>
       <p class="fineprint">${esc(SHORT_LEGAL)}</p>
     </div>
@@ -1963,6 +1963,6 @@ if (!S.settings.introSeen) welcomeSheet();
 
 </script>
 <script>if ("serviceWorker" in navigator && location.protocol === "https:") window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));</script>
-<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest(".sitelink");if(!a)return;try{var r=document.referrer?new URL(document.referrer):null;if(r&&r.origin===location.origin&&r.pathname.indexOf("/elemental")!==0&&history.length>1){e.preventDefault();history.back();}}catch(err){}});</script>
+<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest(".sitelink");if(!a)return;try{var r=document.referrer?new URL(document.referrer):null;if(r&&r.origin===location.origin&&r.pathname.indexOf(location.pathname.replace(/[^/]*$/,""))!==0&&history.length>1){e.preventDefault();history.back();}}catch(err){}});</script>
 </body>
 </html>

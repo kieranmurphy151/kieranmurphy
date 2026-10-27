@@ -6,18 +6,18 @@ Plain HTML and CSS, no build step. GitHub Pages serves this folder as it is.
 
 ## Publish it on GitHub Pages
 
-1. Sign in at github.com (or create a free account). Your username becomes part of your temporary
-   address: `USERNAME.github.io`.
-2. Create a new repository named exactly `USERNAME.github.io` (your username, then `.github.io`).
-   Set it to **Public** and don't add a README.
+1. Sign in at github.com as `kieranmurphy151`.
+2. The site lives in the public repository `kieranmurphy151/kieranmurphy`, so before the domain moves
+   its address is `https://kieranmurphy151.github.io/kieranmurphy/`. All links in the site are relative,
+   so it works there and at kieranmurphy.ie without changes.
 3. Add these files with **GitHub Desktop** (desktop.github.com). The browser uploads only 100 files
    at a time and this site has more, so Desktop is easier:
-   - File > Clone repository > choose `USERNAME.github.io`.
+   - File > Clone repository > choose `kieranmurphy151/kieranmurphy`.
    - Copy everything in this folder (index.html, images, files and the rest) into the cloned folder.
    - Type a summary such as `First version`, click **Commit to main**, then **Push origin**.
 4. In the repository on github.com: **Settings > Pages**. Under "Build and deployment" set Source to
    **Deploy from a branch**, branch **main**, folder **/ (root)**, and save.
-   After a minute or two the site is live at `https://USERNAME.github.io`. Check it there first.
+   After a minute or two the site is live at `https://kieranmurphy151.github.io/kieranmurphy/`. Check it there first.
 
 ## Move kieranmurphy.ie across
 
@@ -39,7 +39,7 @@ Plain HTML and CSS, no build step. GitHub Pages serves this folder as it is.
    | A     | @    | 185.199.109.153        |
    | A     | @    | 185.199.110.153        |
    | A     | @    | 185.199.111.153        |
-   | CNAME | www  | USERNAME.github.io     |
+   | CNAME | www  | kieranmurphy151.github.io |
 
    Optional IPv6 (AAAA, name @): 2606:50c0:8000::153, 2606:50c0:8001::153,
    2606:50c0:8002::153, 2606:50c0:8003::153. Don't add wildcard (`*`) records.
