@@ -70,7 +70,7 @@ a { color: inherit; }
   margin: 0; font-weight: 800; font-variation-settings: "opsz" 96;
   font-size: clamp(3.1rem, 13.4vw, 11.6rem); line-height: .84; letter-spacing: -.045em; white-space: nowrap;
 }
-.trace-wrap { position: relative; height: clamp(66px, 9vw, 104px); border-bottom: 1px solid var(--rule); }
+.trace-wrap { position: relative; height: clamp(72px, 9vw, 110px); }
 #trace { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .hero .lede {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .4rem 2rem; margin: 0;
@@ -422,60 +422,72 @@ document.addEventListener('error', function (e) {
   var c = document.getElementById('trace'); if (!c || !c.getContext) return;
   var ctx = c.getContext('2d');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // one P-QRS-T complex (straight segments keep the QRS sharp), x in units, y in wave heights
+  // one P-QRS-T complex (straight segments keep the QRS sharp); x in units, y in heights of the R wave
   var ECG = [[0,0],[8,0],[10,.06],[13,.12],[16,.12],[19,.06],[21,0],[27,0],[29,-.12],[32,1],[35,-.38],[37.5,0],[45,0],
              [48,.08],[52,.18],[56,.22],[60,.18],[64,.08],[67,0],[74,0]];
-  // a wave: back slope, crest, lip pitching forward and down, inner lip, then the face curving down under it
-  var WAVE = [[0,0],[12,.01],[24,.05],[36,.13],[48,.25],[58,.39],[67,.54],[75,.68],[82,.8],[89,.89],[96,.94],
-              [104,.96],[112,.93],[119,.86],[125,.75],[129,.62],[131,.48],[131,.35],[129,.24],[126,.16],
-              [123,.21],[122,.33],[120,.46],[116,.58],[110,.67],[103,.72],[97,.71],[92,.65],[89,.55],[88,.43],
-              [89,.31],[92,.2],[97,.11],[104,.05],[113,.015],[124,0],[136,0]];
-  var FLAT1 = 48, FLAT2 = 56, FLAT3 = 44;
-  var ink = '#151917', W = 0, H = 0, P = [], CW = 1, STEP = 1.1, SPEED = 115;
+  // one curling wave, in units where across and up are the same size: back, crest, the lip curling over into a
+  // small loop, then down through the curl to the trough, so the next wave carries straight on from it
+  var CURL = [[0,0],[.12,.02],[.24,.08],[.34,.17],[.43,.29],[.51,.41],[.59,.5],[.68,.55],[.78,.56],[.87,.52],
+              [.93,.45],[.95,.37],[.93,.29],[.88,.25],[.82,.26],[.79,.31],[.81,.36],[.86,.36],[.89,.3],[.91,.2],
+              [.94,.11],[.99,.04],[1.06,.01],[1.12,0]];
+  var GAP = 1.12, SETS = 1, FLAT1 = 48, FLAT2 = 56, FLAT3 = 44;   // one wave per heartbeat
+  var ink = '#151917', W = 0, H = 0, P = [], CW = 1, STEP = 1.1, SPEED = 42;
   var idx = 0, rep = 0, sw = 0, cur = [], prev = [], headX = 0, last = 0, frame = 0;
 
   function readInk() { ink = getComputedStyle(document.body).color || ink; }
-  function line(out, pts, ox) { for (var i = 1; i < pts.length; i++) {
+  function line(pts, ox, sx, sy) { var out = []; for (var i = 1; i < pts.length; i++) {
       var a = pts[i - 1], b = pts[i], n = Math.max(2, Math.ceil(Math.abs(b[0] - a[0]) * 2));
-      for (var j = 0; j < n; j++) { var t = j / n; out.push([ox + a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]); } } }
-  function spline(out, pts, ox) { for (var i = 0; i < pts.length - 1; i++) {   // Catmull-Rom through the points
+      for (var j = 0; j < n; j++) { var t = j / n; out.push([(ox + a[0] + (b[0] - a[0]) * t) * sx, (a[1] + (b[1] - a[1]) * t) * sy]); } }
+    var z = pts[pts.length - 1]; out.push([(ox + z[0]) * sx, z[1] * sy]); return out; }
+  function curve(pts, ox, sx, sy) { var out = []; for (var i = 0; i < pts.length - 1; i++) {   // Catmull-Rom through the points
       var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
       for (var j = 0; j < 10; j++) { var t = j / 10, t2 = t * t, t3 = t2 * t;
         var f = function (k) { return .5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t2 + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t3); };
-        out.push([ox + f(0), f(1)]); } } }
-  function build() {
-    var A = H * .6, k = A / 40, raw = [], x = 0;
-    line(raw, [[0, 0], [FLAT1, 0]], x); x += FLAT1;
-    line(raw, ECG, x); x += ECG[ECG.length - 1][0];
-    line(raw, [[0, 0], [FLAT2, 0]], x); x += FLAT2;
-    spline(raw, WAVE, x); x += WAVE[WAVE.length - 1][0];
-    line(raw, [[0, 0], [FLAT3, 0]], x); x += FLAT3;
-    CW = x * k;
-    var px = raw.map(function (p) { return [p[0] * k, p[1] * A]; });
-    P = [px[0]]; var acc = 0;                                        // even spacing along the line
-    for (var i = 1; i < px.length; i++) {
-      var a = P[P.length - 1], b = px[i], dx = b[0] - a[0], dy = b[1] - a[1], d = Math.sqrt(dx * dx + dy * dy);
-      while (d >= STEP) { a = [a[0] + dx / d * STEP, a[1] + dy / d * STEP]; P.push(a); dx = b[0] - a[0]; dy = b[1] - a[1]; d = Math.sqrt(dx * dx + dy * dy); }
+        out.push([(ox + f(0)) * sx, f(1) * sy]); } }
+    var z = pts[pts.length - 1]; out.push([(ox + z[0]) * sx, z[1] * sy]); return out; }
+  function even(stroke) {                                   // resample so the pen moves at a steady speed
+    var out = [stroke[0]];
+    for (var i = 1; i < stroke.length; i++) {
+      var a = out[out.length - 1], b = stroke[i], dx = b[0] - a[0], dy = b[1] - a[1], d = Math.sqrt(dx * dx + dy * dy);
+      while (d >= STEP) { a = [a[0] + dx / d * STEP, a[1] + dy / d * STEP]; out.push(a); dx = b[0] - a[0]; dy = b[1] - a[1]; d = Math.sqrt(dx * dx + dy * dy); }
     }
+    return out;
   }
-  function base() { return H * .74; }
+  function build() {
+    var A = H * .5, k = A / 40, strokes = [], x = 0, u = A;   // k: px per x unit; u: px per wave unit, the same both ways
+    var run = line([[0, 0], [FLAT1, 0]], 0, k, A); x = FLAT1;
+    run = run.concat(line(ECG, x, k, A)); x += ECG[ECG.length - 1][0];
+    run = run.concat(line([[0, 0], [FLAT2, 0]], x, k, A)); x += FLAT2;
+    var wx = x * k;                                        // where the set of waves starts, in px
+    for (var s = 0; s < SETS; s++)                         // one unbroken line: each wave ends where the next begins
+      run = run.concat(curve(CURL, 0, u, u).map(function (p) { return [p[0] + wx + s * GAP * u, p[1]]; }));
+    x = (wx + SETS * GAP * u) / k;
+    run = run.concat(line([[0, 0], [FLAT3, 0]], x, k, A)); x += FLAT3;
+    strokes.push(run);
+    CW = x * k;
+    P = [];
+    strokes.forEach(function (s, i) { if (i) P.push(null); P = P.concat(even(s)); });   // null = lift the pen
+  }
+  function base() { return H * .66; }
   function emit() {
     idx++; if (idx >= P.length) { idx = 0; rep++; }
-    var gx = rep * CW + P[idx][0];
+    var p = P[idx]; if (!p) { cur.push(null); return; }
+    var gx = rep * CW + p[0];
     if (gx - sw * W > W) { sw++; prev = cur; cur = []; headX = 0; }
-    var sx = gx - sw * W; cur.push([sx, base() - P[idx][1]]); if (sx > headX) headX = sx;
+    var sx = gx - sw * W; cur.push([sx, base() - p[1]]); if (sx > headX) headX = sx;
   }
   function stroke(pts, from) {
     ctx.beginPath(); var pen = false;
     for (var i = 0; i < pts.length; i++) { var p = pts[i];
-      if (from !== undefined && p[0] < from) { pen = false; continue; }
+      if (!p || (from !== undefined && p[0] < from)) { pen = false; continue; }
       if (!pen) { ctx.moveTo(p[0], p[1]); pen = true; } else ctx.lineTo(p[0], p[1]); }
     ctx.stroke();
   }
+  function lastPoint() { for (var i = cur.length - 1; i >= 0; i--) if (cur[i]) return cur[i]; return null; }
   function draw() {
-    ctx.clearRect(0, 0, W, H); ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.strokeStyle = ink;
+    ctx.clearRect(0, 0, W, H); ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.strokeStyle = ink; ctx.fillStyle = ink;
     stroke(prev, headX + 28); stroke(cur);
-    if (!reduce && cur.length) { var h = cur[cur.length - 1]; ctx.fillStyle = ink; ctx.beginPath(); ctx.arc(h[0], h[1], 3.2, 0, 6.3); ctx.fill(); }
+    var h = lastPoint(); if (!reduce && h) { ctx.beginPath(); ctx.arc(h[0], h[1], 3.2, 0, 6.3); ctx.fill(); }
   }
   function size() {
     var d = Math.min(2, window.devicePixelRatio || 1);
