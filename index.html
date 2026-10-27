@@ -31,6 +31,7 @@
   --watch: #12202A; --watch-ink: #E7EDEF;
   --elem: #CEC3EE; --elem-ink: #1D1631;
   --accent: var(--ink);
+  --shock: #D9480F; --shock-glow: rgba(217, 72, 15, .55);
   --font: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
@@ -70,7 +71,24 @@ a { color: inherit; }
   margin: 0; font-weight: 800; font-variation-settings: "opsz" 96;
   font-size: clamp(3.1rem, 13.4vw, 11.6rem); line-height: .84; letter-spacing: -.045em; white-space: nowrap;
 }
-.trace-wrap { position: relative; height: clamp(72px, 9vw, 110px); }
+.trace-wrap { position: relative; height: clamp(76px, 9.5vw, 116px); }
+/* defib-style Shock button: shows while a shockable rhythm is running, pulsing so people know to press it */
+.shock {
+  position: absolute; right: 0; top: 12px; z-index: 2; display: inline-flex; align-items: center; gap: .35rem;
+  padding: .5rem .85rem .5rem .7rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--shock); color: #fff; font: 700 .95rem var(--font); letter-spacing: .01em;
+  box-shadow: 0 0 0 0 var(--shock-glow); animation: shock-pulse 1.3s ease-out infinite;
+}
+.shock[hidden] { display: none; }
+.shock svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+.shock:hover { filter: brightness(1.08); }
+.shock:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@keyframes shock-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 var(--shock-glow); }
+  55% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(0, 0, 0, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .shock { animation: none; } }
 #trace { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .hero .lede {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .4rem 2rem; margin: 0;
@@ -292,6 +310,11 @@ figure.missing::after { content: attr(data-name); font-size: .78rem; color: var(
 .vid-link span { padding: .5rem .9rem; border-radius: 6px; background: var(--ground); }
 .project .vid { margin: .4rem 0 1.4rem; max-width: 56rem; }
 .jump { display: flex; gap: 1.2rem; margin-top: .3rem; }
+.social { margin: .35rem 0 .2rem; }
+.social a { display: inline-flex; align-items: center; padding: .5rem 1rem; border: 1.5px solid currentColor; border-radius: 999px;
+  color: var(--accent); font-weight: 700; text-decoration: none; transition: background-color .15s, color .15s; }
+.social a:hover { background: var(--accent); color: var(--ground); }
+.social a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .section-h + .year { margin-top: 1rem; }
 .jump a { font-weight: 700; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
 
@@ -354,7 +377,9 @@ document.addEventListener('error', function (e) {
 <div class="wrap">
 <header class="hero">
   <h1>Kieran Murphy</h1>
-  <div class="trace-wrap"><canvas id="trace" aria-hidden="true"></canvas></div>
+  <div class="trace-wrap"><canvas id="trace" aria-hidden="true"></canvas>
+    <button class="shock" id="shock-btn" type="button" hidden aria-label="Shock: deliver a defibrillation shock to the rhythm on the line">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 5 13.5h6L9.8 22 19 9.8h-6.2z"/></svg>Shock</button></div>
   <div class="lede">
     <p>Paramedic, surf photographer and designer. Portfolios and revision apps.</p>
   </div>
@@ -422,23 +447,29 @@ document.addEventListener('error', function (e) {
   var c = document.getElementById('trace'); if (!c || !c.getContext) return;
   var ctx = c.getContext('2d');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // one P-QRS-T complex (straight segments keep the QRS sharp); x in units, y in heights of the R wave
+  var R = Math.random;
+  // one sinus P-QRS-T complex (straight segments keep the QRS sharp); x in units, y in heights of the R wave
   var ECG = [[0,0],[8,0],[10,.06],[13,.12],[16,.12],[19,.06],[21,0],[27,0],[29,-.12],[32,1],[35,-.38],[37.5,0],[45,0],
              [48,.08],[52,.18],[56,.22],[60,.18],[64,.08],[67,0],[74,0]];
   // R-on-T: a sinus beat whose T wave is cut off by a wide ectopic beat, the classic trigger for VF
   var ECG_T = ECG.filter(function (p) { return p[0] <= 52; });
   var PVC = [[0,.18],[3,.5],[6,.95],[10,.55],[13,-.25],[17,-.55],[22,-.45],[26,-.2]];
-  // one curling wave, in units where across and up are the same size: back, crest, the lip curling over into a
-  // small loop, then down through the curl to the trough
+  // one curling wave, in units where across and up are the same size
   var CURL = [[0,0],[.12,.02],[.24,.08],[.34,.17],[.43,.29],[.51,.41],[.59,.5],[.68,.55],[.78,.56],[.87,.52],
               [.93,.45],[.95,.37],[.93,.29],[.88,.25],[.82,.26],[.79,.31],[.81,.36],[.86,.36],[.89,.3],[.91,.2],
               [.94,.11],[.99,.04],[1.06,.01],[1.12,0]];
-  var FLAT1 = 48, FLAT2 = 56, FLAT3 = 44, VFLEN = 150;
-  function gap() { return 2 + Math.random() * 18; }       // seconds of normal rhythm before the next VF run: 2 to 20, random each time
+  var FLAT1 = 48, FLAT2 = 56, FLAT3 = 44, LEAD = 16, VFLEN = 150;
+  function gap() { return 4 + R() * 26; }                  // seconds of sinus before the next VF run: 4 to 30, random each time
   var EVERY = gap();
-  var ink = '#151917', W = 0, H = 0, A = 1, K = 1, P = [], CW = 1, STEP = 1.1, SPEED = 42;
+  var ink = '#151917', W = 0, H = 0, A = 1, K = 1, STEP = 1.1, SPEED = 66, owed = 0;   // SPEED: px of line per second, the same on any screen
   var seq = [], seqW = 1, idx = 0, baseX = 0, sw = 0, cur = [], prev = [], headX = 0, last = 0, frame = 0;
-  var since = 0, inEvent = false, SHOCKI = -1, bolts = [], prevBolts = [], warm = false;
+  var since = 0, inEvent = false, SHOCKI = -1, bolts = [], prevBolts = [], warm = false, shocked = false;
+  var arrest = null, shockable = false, waitT = 0, AUTO = 10;   // AUTO: seconds before it shocks itself
+  var chb = { t: 0, p: 6 + R() * 20, q: 24 + R() * 30 }, BLOCKS = ['block1', 'wenck', 'mobitz2', 'chb', 'af'];
+  var REV = 9 + R() * 9.5, sceneT = 0, done = false;   // blocks and AF give way to sinus at the next clean beat after REV s: 10-20 s in
+  var afc = { t: 0, qs: [], next: 14 + R() * 20, p1: R() * 6, p2: R() * 6, p3: R() * 6 };   // AF runs on one clock across strips
+  var btn = document.getElementById('shock-btn'), wrap = c.parentNode;
+  var vf = { t: 0, amp: .36, drift: 0, f1: 13, f2: 8, f3: 22, p1: 0, p2: 0, p3: 0 };   // VF carries on smoothly between runs
 
   function readInk() { ink = getComputedStyle(document.body).color || ink; }
   function line(pts, ox) { var out = []; for (var i = 1; i < pts.length; i++) {
@@ -451,6 +482,7 @@ document.addEventListener('error', function (e) {
         var f = function (k) { return .5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t2 + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t3); };
         out.push([oxPx + f(0) * s, f(1) * s]); } }
     var z = pts[pts.length - 1]; out.push([oxPx + z[0] * s, z[1] * s]); return out; }
+  function sampled(fn, L, ox) { var out = []; for (var t = 0; t <= L; t += .5) out.push([(ox + t) * K, fn(t) * A]); return out; }
   function even(stroke) {                                   // resample so the pen moves at a steady speed
     var out = [stroke[0]];
     for (var i = 1; i < stroke.length; i++) {
@@ -459,45 +491,149 @@ document.addEventListener('error', function (e) {
     }
     return out;
   }
-  function build() {                                        // the normal cycle: beat, flat, wave, flat
-    A = H * .5; K = A / 40;
-    var x = 0, run = line([[0, 0], [FLAT1, 0]], 0); x = FLAT1;
-    run = run.concat(line(ECG, x)); x += ECG[ECG.length - 1][0];
+
+  // ---- waveform pieces, as functions of time t in units (10 ms) ----
+  function pl(u, pts) { if (u <= pts[0][0] || u >= pts[pts.length - 1][0]) return 0;
+    for (var i = 1; i < pts.length; i++) if (u <= pts[i][0]) { var a = pts[i - 1], b = pts[i]; return a[1] + (b[1] - a[1]) * (u - a[0]) / (b[0] - a[0]); } return 0; }
+  function bump(t, s, w, amp) { var u = (t - s) / w; return (u > 0 && u < 1) ? amp * Math.sin(Math.PI * u) : 0; }
+  var QN = [[0,0],[2,-.12],[5,1],[8,-.38],[10.5,0]];                           // narrow QRS
+  var QW = [[0,0],[5,.3],[10,.85],[14,.55],[18,-.2],[23,-.45],[29,-.35],[34,0]]; // wide ventricular QRS
+  function pWave(t, s) { return bump(t, s, 13, .12); }
+  function conducted(t, q) { return pl(t - q, QN) + bump(t, q + 18, 22, .22); }   // QRS at q, then its T wave
+
+  var RHYTHMS = {
+    block1: function () {                                  // 1st-degree AV block: every P conducts, PR fixed and long (~0.32 s)
+      var PR = 32, beats = [6, 98, 190], L = 276;           // strips are whole cycles, so they join up seamlessly
+      return { L: L, f: function (t) { var y = 0; beats.forEach(function (p) { y += pWave(t, p) + conducted(t, p + PR); }); return y; } };
+    },
+    wenck: function () {                                   // Mobitz I: PR lengthens beat by beat until a P is not conducted
+      var ps = [6, 86, 166, 246], prs = [18, 28, 36, null], L = 320;
+      return { L: L, f: function (t) { var y = 0; ps.forEach(function (p, i) { y += pWave(t, p); if (prs[i]) y += conducted(t, p + prs[i]); }); return y; } };
+    },
+    mobitz2: function () {                                 // Mobitz II: fixed PR, then a P with no QRS
+      var ps = [6, 84, 162, 240], drop = 2, L = 312;
+      return { L: L, f: function (t) { var y = 0; ps.forEach(function (p, i) { y += pWave(t, p); if (i !== drop) y += conducted(t, p + 18); }); return y; } };
+    },
+    chb: function () {                                     // complete heart block: P waves march through a slow wide escape
+      var L = 320, t0 = chb.t; chb.t += L;                 // one clock across strips keeps atria and ventricles independent
+      return { L: L, f: function (t) { var u = t0 + t, y = 0, k;
+        var kp = Math.floor((u - chb.p) / 68); for (k = kp - 1; k <= kp + 1; k++) y += pWave(u, chb.p + 68 * k);
+        var kq = Math.floor((u - chb.q) / 160);
+        for (k = kq - 1; k <= kq + 1; k++) { var s = chb.q + 160 * k; y += .85 * pl(u - s, QW) + bump(u, s + 36, 28, -.24); }
+        return y; } };
+    },
+    af: function () {                                      // AF: no P waves, fibrillating baseline, irregularly irregular QRS
+      var L = 310, t0 = afc.t; afc.t += L;
+      while (afc.next < t0 + L + 60) { afc.qs.push(afc.next); afc.next += 40 + R() * 70; }
+      var qs = afc.qs = afc.qs.filter(function (q) { return q > t0 - 60; });
+      return { L: L, f: function (t) { var u = t0 + t;
+          var y = .045 * (Math.sin(2 * Math.PI * u / 6.3 + afc.p1) + .7 * Math.sin(2 * Math.PI * u / 4.1 + afc.p2) + .5 * Math.sin(2 * Math.PI * u / 9.7 + afc.p3)) * (.7 + .3 * Math.sin(u / 37));
+          qs.forEach(function (q) { y += pl(u - q, QN) + bump(u, q + 18, 22, .14); }); return y; },
+        quiet: function (t) { var u = t0 + t; for (var k = 0; k < qs.length; k++) if (u >= qs[k] - 1 && u <= qs[k] + 50) return false; return true; } };
+    },
+    vt: function () {                                      // monomorphic VT: broad, fast, regular complexes, no P waves
+      var L = 264, V = [[0,0],[6,.75],[11,.95],[15,.5],[20,-.35],[25,-.6],[30,-.3],[33,0]];
+      return { L: L, f: function (t) { return pl(t % 33, V); } };
+    },
+    tdp: function () {                                     // torsades: fast polymorphic VT twisting about the baseline
+      var L = 360, per = 24;                               // 360 = 3 twists and 15 complexes, so runs join up cleanly
+      return { L: L, f: function (t) { var e = Math.sin(Math.PI * t / 120), a = .12 * (e < 0 ? -1 : 1) + .62 * e;
+        return a * Math.sin(2 * Math.PI * t / per); } };
+    }
+  };
+
+  function waveTail(run, x) {                              // flat, the curling wave, flat
     run = run.concat(line([[0, 0], [FLAT2, 0]], x)); x += FLAT2;
     run = run.concat(curve(CURL, x * K, A)); x += CURL[CURL.length - 1][0] * A / K;
     run = run.concat(line([[0, 0], [FLAT3, 0]], x)); x += FLAT3;
-    CW = x * K; P = even(run);
+    return { run: run, x: x };
   }
-  function episode() {                                      // R-on-T, coarse VF, shock, pause; fresh every time
-    var R = Math.random, x = FLAT1, run = line([[0, 0], [FLAT1, 0]], 0);
-    run = run.concat(line(ECG_T, x)); x += 52;
-    run = run.concat(line(PVC, x)); x += PVC[PVC.length - 1][0];
-    // coarse VF: rounded, irregular undulations of varying size, no recognisable complexes
-    var vf = [], amp = .42, drift = 0, f1 = 13 + R() * 3, f2 = 7.5 + R() * 1.5, f3 = 21 + R() * 4, p1 = R() * 6, p2 = R() * 6, p3 = R() * 6;
-    for (var t = 0; t <= VFLEN; t += .5) {
-      drift += (R() - .5) * .02; drift = Math.max(-.025, Math.min(.025, drift));
-      amp += drift; amp = Math.max(.2, Math.min(.6, amp));
-      var y = amp * (.65 * Math.sin(2 * Math.PI * t / f1 + p1) + .3 * Math.sin(2 * Math.PI * t / f2 + p2) + .22 * Math.sin(2 * Math.PI * t / f3 + p3));
-      vf.push([t, t === 0 ? -.2 : y]);
-    }
-    run = run.concat(line(vf, x)); x += VFLEN;
-    var y0 = vf[vf.length - 1][1];
-    var shock = [[0, y0], [1, 1.3], [2.5, -.6]];            // the shock artefact goes off scale, then decays
-    for (var j = 1; j <= 14; j++) shock.push([2.5 + j, -.6 * Math.exp(-j / 3.2)]);
-    shock.push([18, 0], [40, 0]);                            // a brief pause before the heart picks up again
-    var before = run.length; run = run.concat(line(shock, x)); x += 40;
-    var pts = even(run), spikeX = (x - 40 + 1) * K, best = 1e9, si = 0;
-    for (var q = 0; q < pts.length; q++) { var e = Math.abs(pts[q][0] - spikeX) + Math.abs(pts[q][1] - 1.3 * A) * .5; if (e < best) { best = e; si = q; } }
+  function finish(run, x, shockAt) {
+    var pts = even(run), si = -1;
+    if (shockAt !== undefined) { var best = 1e9, sx = shockAt * K;
+      for (var q = 0; q < pts.length; q++) { var e = Math.abs(pts[q][0] - sx) + Math.abs(pts[q][1] - 1.3 * A) * .5; if (e < best) { best = e; si = q; } } }
     return { pts: pts, w: x * K, shock: si };
   }
-  function base() { return H * .66; }
+  function shock(run, x, y0) {                             // off-scale artefact, decay back, then a brief pause
+    var s = [[0, y0], [1, 1.3], [2.5, -.6]];
+    for (var j = 1; j <= 14; j++) s.push([2.5 + j, -.6 * Math.exp(-j / 3.2)]);
+    s.push([18, 0], [40, 0]);
+    return { run: run.concat(line(s, x)), x: x + 40, at: x + 1 };
+  }
+  function sinusCycle() {
+    var x = FLAT1, run = line([[0, 0], [FLAT1, 0]], 0);
+    run = run.concat(line(ECG, x)); x += ECG[ECG.length - 1][0];
+    var w = waveTail(run, x); return finish(w.run, w.x);
+  }
+  function plainRun(name) {                                // VT or torsades running on until it's shocked
+    var r = RHYTHMS[name](); return finish(sampled(r.f, r.L, 0), r.L);
+  }
+  function vfStrip(L) {                                    // coarse VF: rounded, irregular undulations of varying size
+    var out = [];
+    for (var t = 0; t <= L; t += .5) {
+      vf.drift += (R() - .5) * .02; vf.drift = Math.max(-.025, Math.min(.025, vf.drift));
+      vf.amp += vf.drift; vf.amp = Math.max(.18, Math.min(.5, vf.amp));
+      var u = vf.t + t;
+      out.push([t, vf.amp * (.65 * Math.sin(2 * Math.PI * u / vf.f1 + vf.p1) + .3 * Math.sin(2 * Math.PI * u / vf.f2 + vf.p2) + .22 * Math.sin(2 * Math.PI * u / vf.f3 + vf.p3))]);
+    }
+    vf.t += L; return out;
+  }
+  function vfOnset() {                                     // R-on-T, then VF; the Shock button comes up as VF starts
+    vf = { t: 0, amp: .36, drift: 0, f1: 13 + R() * 3, f2: 7.5 + R() * 1.5, f3: 21 + R() * 4, p1: R() * 6, p2: R() * 6, p3: R() * 6 };
+    var x = FLAT1, run = line([[0, 0], [FLAT1, 0]], 0);
+    run = run.concat(line(ECG_T, x)); x += 52;
+    run = run.concat(line(PVC, x)); x += PVC[PVC.length - 1][0];
+    var start = x, s = vfStrip(VFLEN); s[0][1] = -.2;
+    run = run.concat(line(s, x)); x += VFLEN;
+    var out = finish(run, x), sx = start * K;
+    for (var q = 0; q < out.pts.length; q++) if (out.pts[q][0] >= sx) { out.onset = q; break; }
+    return out;
+  }
+  function vfRun() { return finish(line(vfStrip(VFLEN), 0), VFLEN); }
+  function shockNow() {                                    // tap, click or timeout: the shock goes in from wherever the pen is
+    if (!shockable) return;
+    shockable = false; arrest = null; shocked = true; if (btn) btn.hidden = true;
+    var p = seq[Math.min(idx, seq.length - 1)], s = shock([], 0, p[1] / A), out = finish(s.run, s.x, s.at);
+    baseX += p[0]; seq = out.pts; seqW = out.w; idx = 0; SHOCKI = out.shock; inEvent = true;
+  }
+  function arm() { shockable = true; waitT = 0; if (btn) btn.hidden = false; }
+  var OTHERS = ['block1', 'wenck', 'mobitz2', 'chb', 'af', 'vt', 'tdp'];
+  function timedRun(name) {                                // a strip of the block or AF, cut short so sinus takes over on time
+    var r = RHYTHMS[name](), s = sampled(r.f, r.L, 0), out = finish(s, r.L);
+    if (!warm || reduce) return out;
+    var ti = Math.floor((REV - sceneT) * SPEED / STEP);    // how far the pen gets before it's time to revert
+    if (ti >= out.pts.length - 1) return out;
+    var quiet = r.quiet || function (t) { for (var u = t - 3; u <= t + 3; u += .5) if (Math.abs(r.f(u)) > 1e-3) return false; return true; };
+    var tx = out.pts[Math.max(0, ti)][0];
+    for (var j = 4; j < s.length - 1; j++) if (s[j][0] >= tx && quiet(j * .5)) {   // first clean point on the baseline after that
+      s = s.slice(0, j + 1);
+      for (var k = Math.max(0, j - 16); k <= j; k++) s[k][1] *= Math.min(1, (j - k) / 16);   // settle onto the baseline
+      done = true; return finish(s, j * .5);
+    }
+    return out;
+  }
+  var SCENE = R() < .6 ? 'sinus' : OTHERS[Math.floor(R() * OTHERS.length)];   // chosen once per page load: sinus 60% of the time
+  function nextCycle() {                                   // what the monitor draws next
+    if (arrest === 'vf') return vfRun();                   // a shockable rhythm keeps going until it's shocked
+    if (arrest) return plainRun(arrest);
+    if (SCENE === 'sinus') {                               // VF starts at whichever beat lands nearest its time
+      var c = sinusCycle();
+      if (warm && !reduce && since + c.pts.length * STEP / SPEED / 2 >= EVERY) { arrest = 'vf'; return vfOnset(); }
+      return c; }
+    if (SCENE === 'vt' || SCENE === 'tdp') return sinusCycle();   // after the shock: sinus with the wave
+    if (!done && (reduce || !warm || sceneT < REV)) return timedRun(SCENE);   // blocks and AF on their own, no wave
+    return sinusCycle();                                   // then sinus with the wave
+  }
+
+  function base() { return H * .6; }
   function emit() {
     idx++;
     if (idx >= seq.length) {
       baseX += seqW; idx = 0;
-      if (warm && !reduce && !inEvent && since >= EVERY) { var ev = episode(); seq = ev.pts; seqW = ev.w; SHOCKI = ev.shock; inEvent = true; }
-      else { if (inEvent) { since = 0; EVERY = gap(); } seq = P; seqW = CW; inEvent = false; }   // timing restarts once sinus is back
+      if (inEvent) { since = 0; EVERY = gap(); }           // the VF clock restarts once sinus is back
+      var n = nextCycle(); seq = n.pts; seqW = n.w; SHOCKI = n.shock; inEvent = n.shock >= 0; seq.onset = n.onset;
     }
+    if (seq.onset !== undefined && idx === seq.onset) arm();
     var p = seq[idx], gx = baseX + p[0];
     if (gx - sw * W > W) { sw++; prev = cur; cur = []; headX = 0; prevBolts = bolts; bolts = []; }
     var sx = gx - sw * W; cur.push([sx, base() - p[1]]); if (sx > headX) headX = sx;
@@ -526,17 +662,26 @@ document.addEventListener('error', function (e) {
     var nw = Math.max(1, Math.round(c.clientWidth)), nh = Math.max(1, Math.round(c.clientHeight));
     if (nw === W && nh === H) return;            // mobile toolbars fire resize without changing this box
     W = nw; H = nh; c.width = W * d; c.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
-    build(); seq = P; seqW = CW; idx = 0; baseX = 0; sw = 0; cur = []; prev = []; headX = 0; bolts = []; prevBolts = []; inEvent = false;
-    warm = false; while (sw < 1) emit(); warm = true;   // start with a full screen of trace, so the line is there at rest
+    A = H * .5; K = A / 40;
+    warm = false; shocked = false; shockable = false; chb.t = 0; afc.t = 0; afc.qs = []; afc.next = 14 + R() * 20; if (btn) btn.hidden = true;
+    arrest = (!reduce && (SCENE === 'vt' || SCENE === 'tdp')) ? SCENE : null;   // VT and torsades are running as the page opens
+    var first = nextCycle(); seq = first.pts; seqW = first.w; idx = 0; baseX = 0; sw = 0; cur = []; prev = []; headX = 0;
+    bolts = []; prevBolts = []; inEvent = false;
+    while (sw < 1) emit(); warm = true;                  // start with a full screen of the rhythm, so the line is there at rest
+    if (arrest) arm();
     if (reduce) { cur = prev.concat(cur); prev = []; }
     draw();
   }
   function tick(t) {
-    var dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t; since += dt;
-    var n = Math.round(SPEED * dt / STEP); for (var i = 0; i < n; i++) emit();
+    var dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t; since += dt; sceneT += dt;
+    if (shockable) { waitT += dt; if (waitT >= AUTO) shockNow(); }
+    owed += SPEED * dt / STEP; var n = Math.floor(owed); owed -= n;   // carry part-points over so 120 Hz screens keep moving
+    for (var i = 0; i < n; i++) emit();
     if (++frame % 60 === 0) readInk();
     draw(); requestAnimationFrame(tick);
   }
+  if (btn) btn.addEventListener('click', function (e) { e.stopPropagation(); shockNow(); });
+  wrap.addEventListener('click', function () { shockNow(); });   // tapping the line works too
   readInk(); size();
   window.addEventListener('resize', size);
   if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () { readInk(); draw(); });

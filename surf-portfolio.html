@@ -31,6 +31,7 @@
   --watch: #12202A; --watch-ink: #E7EDEF;
   --elem: #CEC3EE; --elem-ink: #1D1631;
   --accent: var(--ink);
+  --shock: #D9480F; --shock-glow: rgba(217, 72, 15, .55);
   --font: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
@@ -70,7 +71,24 @@ a { color: inherit; }
   margin: 0; font-weight: 800; font-variation-settings: "opsz" 96;
   font-size: clamp(3.1rem, 13.4vw, 11.6rem); line-height: .84; letter-spacing: -.045em; white-space: nowrap;
 }
-.trace-wrap { position: relative; height: clamp(72px, 9vw, 110px); }
+.trace-wrap { position: relative; height: clamp(76px, 9.5vw, 116px); }
+/* defib-style Shock button: shows while a shockable rhythm is running, pulsing so people know to press it */
+.shock {
+  position: absolute; right: 0; top: 12px; z-index: 2; display: inline-flex; align-items: center; gap: .35rem;
+  padding: .5rem .85rem .5rem .7rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--shock); color: #fff; font: 700 .95rem var(--font); letter-spacing: .01em;
+  box-shadow: 0 0 0 0 var(--shock-glow); animation: shock-pulse 1.3s ease-out infinite;
+}
+.shock[hidden] { display: none; }
+.shock svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+.shock:hover { filter: brightness(1.08); }
+.shock:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@keyframes shock-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 var(--shock-glow); }
+  55% { transform: scale(1.06); box-shadow: 0 0 0 12px rgba(0, 0, 0, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .shock { animation: none; } }
 #trace { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .hero .lede {
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .4rem 2rem; margin: 0;
@@ -292,6 +310,11 @@ figure.missing::after { content: attr(data-name); font-size: .78rem; color: var(
 .vid-link span { padding: .5rem .9rem; border-radius: 6px; background: var(--ground); }
 .project .vid { margin: .4rem 0 1.4rem; max-width: 56rem; }
 .jump { display: flex; gap: 1.2rem; margin-top: .3rem; }
+.social { margin: .35rem 0 .2rem; }
+.social a { display: inline-flex; align-items: center; padding: .5rem 1rem; border: 1.5px solid currentColor; border-radius: 999px;
+  color: var(--accent); font-weight: 700; text-decoration: none; transition: background-color .15s, color .15s; }
+.social a:hover { background: var(--accent); color: var(--ground); }
+.social a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .section-h + .year { margin-top: 1rem; }
 .jump a { font-weight: 700; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
 
@@ -363,6 +386,7 @@ document.addEventListener('error', function (e) {
 <header class="page-head">
   <h1>Surf Portfolio</h1>
   <p class="sub">Films and photography</p>
+  <p class="social"><a href="https://www.instagram.com/kieranmurphy151/" target="_blank" rel="noopener">@kieranmurphy151 on Instagram<span aria-hidden="true">&nbsp;↗</span></a></p>
   <nav class="jump" aria-label="On this page"><a href="#films">Films</a><a href="#photography">Photography</a></nav>
 </header>
 <section class="year" id="films" aria-label="Films"><h2>Films</h2><div class="films"><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/42OT8SiX0PM" title="Surf film 1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/YvcOS7ysvZ0" title="Surf film 2" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/F0lFjNWOqh8" title="Surf film 3" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/LlT_3x0z_gY" title="Surf film 4" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/aVJnuqGOCvI" title="Surf film 5" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/UDPEd3vz_ws" title="Surf film 6" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://player.vimeo.com/video/484287373?dnt=1" title="Surf film 7" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://player.vimeo.com/video/484287285?dnt=1" title="Surf film 8" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://player.vimeo.com/video/484287146?dnt=1" title="Surf film 9" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://player.vimeo.com/video/484286984?dnt=1" title="Surf film 10" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://player.vimeo.com/video/484255961?dnt=1" title="Surf film 11" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://player.vimeo.com/video/430506984?dnt=1" title="Surf film 12" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/GfwS53igG6Y" title="Surf film 13" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div></div></section>

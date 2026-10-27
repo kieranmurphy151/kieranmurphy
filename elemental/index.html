@@ -133,11 +133,18 @@ h1,h2,h3{font-family:var(--round);margin:0;text-wrap:balance}
 .up-t b{display:block;font:900 1.25rem/1.15 var(--round)}
 .up-t span{display:block;color:var(--muted);font-size:.875rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pill{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font:800 .8125rem var(--round);color:var(--ink);background:color-mix(in srgb,var(--cta) 35%,var(--card));border-radius:10px;padding:5px 10px;border:0;cursor:pointer}
-.picks-h{display:flex;justify-content:space-between;align-items:baseline;flex:none;margin-top:2px}
+.picks-h{display:flex;justify-content:space-between;align-items:center;flex:none;margin-top:2px}
+.picks-h .tbtn{display:inline-flex;align-items:center;gap:5px;min-height:40px;margin:-8px -6px -8px 0;padding:6px 6px 6px 10px;font-size:.875rem;border-radius:12px}
+.picks-h .tbtn:hover{background:var(--fill)}
+.picks-h .tbtn svg{width:16px;height:16px;flex:none}
 .picks-h h2{font-size:1.125rem;font-weight:900}
 .picks-h span{font-size:.8125rem;color:var(--muted);font-weight:600}
 .picks{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:10px 9px;padding-bottom:4px;max-height:360px}
-.picks .el{height:100%;max-height:96px;align-self:center;width:100%}
+.picks .el{height:100%;max-height:96px;align-self:center;width:100%;container-type:size}
+@container (max-height:52px){.el small{display:none}}
+.fmt-list .el{width:46px;height:46px;flex:none;border-radius:12px;box-shadow:0 3px 0 color-mix(in srgb,var(--lc) 68%,#000);cursor:inherit}
+.fmt-list .el b{font-size:1.125rem}
+.fmt-list .li{padding-block:11px}
 .picks .el b{font-size:clamp(1.05rem,4.6vw,1.5rem)}
 
 /* ---------- table ---------- */
@@ -1218,7 +1225,8 @@ const ICON = {
   bulb: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>',
   map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>',
   book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z"/><path d="M8 7h7"/></svg>',
-  play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>'
+  play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>',
+  expand: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-6.5 6.5M4 20l6.5-6.5"/></svg>'
 };
 
 /* ---------- content registry ---------- */
@@ -1421,6 +1429,10 @@ function peekNext() { if (!sess.next) sess.next = choose(); return sess.next; }
 
 
 /* ---------- small helpers ---------- */
+const FDESC = { quiz: "One multiple-choice question", calc: "A calculation, with fresh numbers every time", scale: "If one thing changes, by how much does the other?",
+  crunch: "Fast mental maths: powers of ten, logs, percentages", rank: "Put four in order", odd: "Spot the one that doesn't belong",
+  graph: "Get the answer from a graph or chart", read: "A short passage, then what it implies", tone: "Name the tone of a line of writing",
+  angle: "90 seconds to find your position on an essay theme", sprint: "As many as you can in a minute: maths or tone", essay: "A timed essay on one theme" };
 const FCOL = { quiz: "phys", calc: "chem", scale: "maths", crunch: "write", rank: "bio", odd: "hum", graph: "lime", read: "cherry", tone: "write", angle: "phys", sprint: "chem", essay: "maths" };
 const PRAISE = ["Nice one!", "Spot on!", "Nailed it!", "Correct!", "Lovely!", "That's it!"];
 const CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
@@ -1477,7 +1489,7 @@ function renderToday() {
       ${F ? `<button class="pill" type="button" id="endForce">${F.left} left · Back to the mix</button>` : ""}
       <button class="b3 primary big" type="button" id="startBtn">${ICON.play}${done ? "Keep going" : "Start"}</button>
     </div>
-    <div class="picks-h"><h2>Or pick a format</h2><span>5 in a row</span></div>
+    <div class="picks-h"><h2>Or pick a format</h2><button class="tbtn" type="button" id="fmtAll" aria-haspopup="dialog">${ICON.expand}Expand</button></div>
     <div class="picks">${Object.entries(FORMATS).map(([k, f]) => `<button type="button" class="el ln-${FCOL[k]}" data-fmt="${k}" aria-label="${esc(f.name)}"><i>${f.time}</i><b>${f.sym}</b><small>${esc(f.name)}</small></button>`).join("")}</div>
   </div>`;
   sess.goalPop = false;
@@ -1486,6 +1498,7 @@ function renderToday() {
   const ef = $("#endForce"); if (ef) ef.onclick = () => { sess.force = null; sess.next = null; renderToday(); };
   const sb = $("#streakBtn"); if (sb) sb.onclick = () => toast(st ? `${st}-day streak. Missing one day is fine; two in a row resets it.` : "Hit today's goal to start a streak.");
   $$("[data-fmt]").forEach(b => (b.onclick = () => startFormat(b.dataset.fmt)));
+  $("#fmtAll").onclick = formatSheet;
 }
 function renderTable() {
   const counts = [0, 0, 0, 0]; PICKABLE.forEach(t => counts[lvl(t.id)]++);
@@ -1899,6 +1912,11 @@ function topicSheet(id) {
     <p class="small muted">Formats here: ${kinds.map(esc).join(", ")}.${pool.some(c => c.kind === "gen") ? " Calculations use fresh numbers every time." : ""}</p>
     <button class="b3 primary big" type="button" id="practiseBtn">${ICON.play}Practise 5 from this topic</button>`,
     () => { $("#practiseBtn").onclick = () => { closeSheet(); sess.force = { type: "topic", id, left: 5 }; sess.next = null; openBite(choose()); }; });
+}
+function formatSheet() {                         // the format grid, expanded: every format with its name and what it is
+  openSheet("Pick a format", `<p class="muted" style="margin-top:-6px">Most run 5 in a row, then it's back to the mix.</p>
+    <div class="group fmt-list">${Object.entries(FORMATS).map(([k, f]) => `<button class="li" type="button" data-pick="${k}">${el(f.sym, { lane: FCOL[k] })}<div><b>${esc(f.name)}</b><small>${esc(f.time)} · ${esc(FDESC[k])}</small></div>${CHEV}</button>`).join("")}</div>`,
+    () => $$("#sheetBody [data-pick]").forEach(b => (b.onclick = () => { closeSheet(); startFormat(b.dataset.pick); })));
 }
 function aboutSheet() {
   openSheet("How this works", `<p>Each bite takes 15–90 seconds and saves the moment you answer, so you can stop any time.</p>
