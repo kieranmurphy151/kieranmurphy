@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pre-Hospital Portfolio - Kieran Murphy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Related to Bsc Paramedic Studies and Continued Professional Development">
+<meta property="og:title" content="Pre-Hospital Portfolio - Kieran Murphy">
+<meta property="og:description" content="Related to Bsc Paramedic Studies and Continued Professional Development">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231F5C47'/%3E%3Cpath d='M6 38h14l4-6 5 18 6-34 5 22h18' fill='none' stroke='%23E9E35A' stroke-width='4.5' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&display=swap">
+<style>
+/* Layout: an oversized name over a live trace line (sea swell with a heartbeat), then the menu as two bento rows,
+   Portfolios and Apps. Every section owns one colour, used on its tile, its menu swatch and as its page accent.
+   Inner pages: one left-aligned column, dates in a narrow rail beside a ~66ch reading column. */
+:root {
+  --ground: #ECEEEA;
+  --ink: #151917;
+  --ink-2: #57605B;
+  --rule: #C6CDC8;
+  --paper: #F9F9F5;
+  --paper-ink: #151917;
+  --shade: #DCE1DD;
+  /* section colours */
+  --ph: #1F5C47;   --ph-ink: #F2F5EE;  --ph-trace: #E9E35A;
+  --surf: #A8D2D3; --surf-ink: #0F2A2B;
+  --cpg: #EFD449;  --cpg-ink: #1A1A12;
+  --watch: #12202A; --watch-ink: #E7EDEF;
+  --elem: #CEC3EE; --elem-ink: #1D1631;
+  --accent: var(--ink);
+  --font: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #111513; --ink: #E5E9E5; --ink-2: #9AA49E; --rule: #2A332E; --paper: #1A201D; --paper-ink: #E5E9E5;
+    --shade: #1D2521; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #111513; --ink: #E5E9E5; --ink-2: #9AA49E; --rule: #2A332E; --paper: #1A201D; --paper-ink: #E5E9E5;
+  --shade: #1D2521; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: var(--font); font-optical-sizing: auto; font-size: 1.0625rem; line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
+
+.wrap {
+  max-width: 76rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: clamp(1.25rem, 3.5vw, 2.75rem) 2.5rem;
+}
+.sw { display: inline-block; width: .62em; height: .62em; border-radius: 2px; flex: none; }
+.sw-ph { background: var(--ph); } .sw-surf { background: var(--surf); } .sw-ux { background: var(--ink); }
+.sw-cpg { background: var(--cpg); } .sw-watch { background: var(--watch); outline: 1px solid var(--rule); } .sw-elem { background: var(--elem); }
+
+/* ---------- home: hero ---------- */
+.hero { display: grid; gap: clamp(.6rem, 1.5vw, 1rem); padding-bottom: clamp(1.75rem, 4vw, 3rem); }
+.hero h1 {
+  margin: 0; font-weight: 800; font-variation-settings: "opsz" 96;
+  font-size: clamp(3.1rem, 13.4vw, 11.6rem); line-height: .84; letter-spacing: -.045em; white-space: nowrap;
+}
+.trace-wrap { position: relative; height: clamp(66px, 9vw, 104px); border-bottom: 1px solid var(--rule); }
+#trace { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hero .lede {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .4rem 2rem; margin: 0;
+}
+.hero .lede p { margin: 0; font-size: clamp(1.15rem, 1rem + .6vw, 1.45rem); font-weight: 500; max-width: 34ch; text-wrap: balance; }
+.hero .lede .reading { color: var(--ink-2); font-size: .95rem; min-height: 1.6em; font-variant-numeric: tabular-nums; }
+
+/* ---------- home: bento ---------- */
+.group { display: grid; gap: .7rem; margin-top: clamp(1.5rem, 4vw, 2.75rem); }
+.group > h2 { margin: 0; font-size: 1rem; font-weight: 700; color: var(--ink-2); }
+.bento { display: grid; gap: 12px; }
+.bento.port { grid-template-columns: 1.15fr 1fr; grid-template-rows: auto auto; }
+.bento.port .t-ph { grid-row: span 2; }
+.bento.apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 60rem) {
+  .bento.port { grid-template-columns: 1fr 1fr; }
+  .bento.port .t-ph { grid-row: auto; grid-column: 1 / -1; }
+  .bento.apps { grid-template-columns: 1fr 1fr; }
+  .bento.apps .tile:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 40rem) {
+  .bento.port, .bento.apps { grid-template-columns: minmax(0, 1fr); }
+  .bento.port .t-ph, .bento.apps .tile:last-child { grid-column: auto; }
+}
+
+.tile {
+  position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: 1rem;
+  min-height: 15rem; padding: clamp(1rem, 2vw, 1.4rem); border-radius: 10px; overflow: hidden;
+  text-decoration: none; background: var(--bg); color: var(--fg);
+  transition: transform .25s ease;
+}
+a.tile:hover { transform: translateY(-3px); }
+.tile .tt { display: grid; gap: .2rem; position: relative; z-index: 1; }
+.tile h3 {
+  margin: 0; font-weight: 700; font-variation-settings: "opsz" 72;
+  font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1; letter-spacing: -.025em;
+}
+.tile .d { font-size: 1rem; line-height: 1.35; opacity: .82; max-width: 30ch; }
+.tile .art { position: relative; display: grid; align-items: end; min-height: 6rem; }
+.tile .art svg { width: 100%; height: 100%; max-height: 15rem; overflow: visible; }
+.tile .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-size: .92rem; font-weight: 600; position: relative; z-index: 1; font-variant-numeric: tabular-nums; }
+.tile .meta .go { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.t-ph { --bg: var(--ph); --fg: var(--ph-ink); min-height: 31rem; }
+.t-ph .art { margin-inline: calc(-1 * clamp(1rem, 2vw, 1.4rem)); overflow: hidden; align-items: center; }
+.t-ph .art svg { max-height: none; }
+.t-surf { --bg: var(--surf); --fg: var(--surf-ink); }
+.t-ux { --bg: var(--paper); --fg: var(--paper-ink); box-shadow: inset 0 0 0 1px var(--rule); }
+.t-cpg { --bg: var(--cpg); --fg: var(--cpg-ink); }
+.t-watch { --bg: var(--watch); --fg: var(--watch-ink); }
+.t-elem { --bg: var(--elem); --fg: var(--elem-ink); }
+@media (max-width: 60rem) { .t-ph { min-height: 22rem; } }
+@media (max-width: 40rem) { .tile { min-height: 13rem; } .t-ph { min-height: 17rem; } }
+
+/* drawing the line on hover */
+.draw { stroke-dasharray: var(--len, 1200); stroke-dashoffset: 0; }
+a.tile:hover .draw, a.tile:focus-visible .draw { animation: draw 1.4s ease-out; }
+@keyframes draw { from { stroke-dashoffset: var(--len, 1200); } to { stroke-dashoffset: 0; } }
+/* isolated danger mark light, Fl(2) 10s */
+.flash { animation: fl2 10s linear infinite; }
+@keyframes fl2 { 0%, 5.5% { opacity: 1; } 5.6%, 12.4% { opacity: .08; } 12.5%, 18% { opacity: 1; } 18.1%, 100% { opacity: .08; } }
+/* CPG Drill: A, B, C, D, E light up in turn, then the survey is ticked off */
+.abc { opacity: .28; animation: 6s ease-out infinite; }
+.abc0 { animation-name: abc0; } @keyframes abc0 { 0%, 5.0% { opacity: .28; } 9.0%, 80% { opacity: 1; } 87%, 100% { opacity: .28; } }
+.abc1 { animation-name: abc1; } @keyframes abc1 { 0%, 13.3% { opacity: .28; } 17.3%, 80% { opacity: 1; } 87%, 100% { opacity: .28; } }
+.abc2 { animation-name: abc2; } @keyframes abc2 { 0%, 21.7% { opacity: .28; } 25.7%, 80% { opacity: 1; } 87%, 100% { opacity: .28; } }
+.abc3 { animation-name: abc3; } @keyframes abc3 { 0%, 30.0% { opacity: .28; } 34.0%, 80% { opacity: 1; } 87%, 100% { opacity: .28; } }
+.abc4 { animation-name: abc4; } @keyframes abc4 { 0%, 38.3% { opacity: .28; } 42.3%, 80% { opacity: 1; } 87%, 100% { opacity: .28; } }
+
+.tick { transform-box: fill-box; transform-origin: center; animation: tick 6s ease-out infinite; }
+@keyframes tick { 0%, 44% { transform: scale(0); } 50% { transform: scale(1.18); } 54%, 80% { transform: scale(1); } 86%, 100% { transform: scale(0); } }
+/* Elemental: carbon's two inner and four outer electrons orbit the nucleus */
+.orbit { transform-box: view-box; transform-origin: 168px 66px; animation: spin 4s linear infinite; }
+.orbit-out { animation-duration: 11s; animation-direction: reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.soon-tag {
+  display: inline-block; font-size: .8rem; font-weight: 700; line-height: 1; padding: .4em .6em .35em;
+  border-radius: 3px; background: var(--elem-ink); color: var(--elem); white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  a.tile, a.tile:hover { transform: none; transition: none; }
+  a.tile:hover .draw { animation: none; }
+  .flash { animation: none; opacity: 1; }
+  .abc { animation: none; opacity: 1; }
+  .tick { animation: none; transform: none; }
+  .orbit { animation: none; }
+}
+
+/* ---------- inner pages ---------- */
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1.5rem;
+  padding-bottom: 1rem; border-bottom: 1px solid var(--rule); margin-bottom: clamp(2rem, 5vw, 3.25rem);
+}
+.top .name { font-weight: 800; font-size: 1.45rem; letter-spacing: -.03em; text-decoration: none; line-height: 1.1; }
+.top .menus { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem 1.4rem; }
+.top .navgroup { display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; }
+.top .navgroup.apps { padding-left: 1.4rem; border-left: 1px solid var(--rule); }
+.top .navgroup a, .top .navgroup .off {
+  display: inline-flex; align-items: center; gap: .4rem; text-decoration: none; font-size: .98rem; font-weight: 600;
+  padding-block: .15rem; text-underline-offset: 5px; text-decoration-thickness: 2px;
+}
+.top .navgroup.apps a, .top .navgroup .off { font-weight: 450; color: var(--ink-2); }
+.top .navgroup a:hover { text-decoration-line: underline; }
+.top .navgroup a[aria-current="page"] { text-decoration-line: underline; text-decoration-color: var(--accent); }
+.top .off small { font-size: .78rem; font-weight: 600; }
+@media (max-width: 44rem) {
+  .top .menus { flex-direction: column; align-items: flex-start; gap: .35rem; }
+  .top .navgroup.apps { padding-left: 0; border-left: 0; }
+}
+
+.page-head { display: grid; gap: .5rem; max-width: 56rem; margin-bottom: clamp(2rem, 5vw, 3rem); }
+.page-head h1 {
+  margin: 0; font-weight: 800; font-variation-settings: "opsz" 96;
+  font-size: clamp(2.6rem, 1.4rem + 5.5vw, 6rem); line-height: .92; letter-spacing: -.04em; text-wrap: balance;
+}
+.page-head .sub { margin: 0; color: var(--ink-2); font-size: clamp(1.1rem, 1rem + .5vw, 1.35rem); text-wrap: balance; }
+.status { margin: .5rem 0 0; font-size: .95rem; display: flex; align-items: center; gap: .5rem; }
+
+.prose { max-width: 66ch; min-width: 0; }
+.prose p, .prose ul, .prose ol, .prose blockquote { margin: 0 0 .9em; }
+.prose ul, .prose ol { padding-left: 1.2rem; }
+.prose li { margin-bottom: .45em; }
+.prose li::marker { color: var(--accent); }
+.prose li > ul { margin: .45em 0 0; }
+.prose blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; color: var(--ink-2); }
+.prose blockquote p { margin-bottom: .3em; }
+.prose cite { font-style: normal; font-size: .92rem; }
+.intro h2, .section-h {
+  font-weight: 700; font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem); letter-spacing: -.02em; margin: 0 0 .6rem; line-height: 1.15;
+}
+
+.summary {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 2rem; margin: 1.6rem 0 0; padding: 1rem 1.1rem;
+  background: var(--accent); color: var(--accent-ink, var(--ground)); border-radius: 10px;
+}
+.summary .hours { font-weight: 800; font-size: clamp(1.8rem, 1.4rem + 1.5vw, 2.6rem); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.summary .hours small { font-weight: 500; font-size: 1rem; letter-spacing: 0; margin-left: .45rem; opacity: .85; }
+.summary nav { display: flex; gap: .4rem 1.1rem; flex-wrap: wrap; }
+.summary nav a { font-weight: 700; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+
+.year { margin-top: clamp(2.5rem, 6vw, 4.5rem); scroll-margin-top: 1rem; }
+.year > h2 {
+  margin: 0 0 .4rem; font-weight: 800; font-size: clamp(2.4rem, 1.6rem + 4vw, 4.8rem); line-height: 1;
+  letter-spacing: -.045em; color: var(--accent); font-variant-numeric: tabular-nums;
+}
+/* collapsible CPD entries: date, hours and title always visible; notes open on tap */
+details.entry { border-top: 1px solid var(--rule); }
+details.entry:last-of-type { border-bottom: 1px solid var(--rule); }
+details.entry + details.entry:last-of-type { border-bottom: 0; }
+.entry summary {
+  display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 1.5rem; gap: .3rem 2rem; align-items: start;
+  padding: 1.05rem 0; cursor: pointer; list-style: none;
+}
+.entry summary::-webkit-details-marker { display: none; }
+.entry .rail { display: grid; align-content: start; gap: .05rem; font-size: .95rem; color: var(--ink-2); font-variant-numeric: tabular-nums; padding-top: .15rem; }
+.entry .rail b { color: var(--ink); font-weight: 700; }
+.entry summary h3 {
+  margin: 0; font-weight: 700; font-size: clamp(1.15rem, 1.05rem + .5vw, 1.45rem); line-height: 1.25;
+  letter-spacing: -.015em; text-wrap: balance; text-underline-offset: 4px; text-decoration-thickness: 1.5px;
+}
+.entry summary h3 small { display: block; margin-top: .15rem; font-size: .95rem; font-weight: 500; letter-spacing: 0; color: var(--ink-2); }
+.entry summary:hover h3 { text-decoration-line: underline; text-decoration-color: var(--accent); }
+.entry .chev {
+  width: .7rem; height: .7rem; margin-top: .45rem; justify-self: end;
+  border-right: 2px solid var(--ink-2); border-bottom: 2px solid var(--ink-2); transform: rotate(45deg); transition: transform .2s ease;
+}
+.entry[open] .chev { transform: rotate(-135deg); margin-top: .75rem; }
+.entry .ebody { padding: 0 0 1.4rem calc(9.5rem + 2rem); }
+.entry .ebody > :last-child { margin-bottom: 0; }
+.entry.small summary h3 { font-size: 1.08rem; }
+.toggle-all {
+  margin-left: auto; font: 700 .95rem var(--font); color: inherit; background: transparent; cursor: pointer;
+  border: 1.5px solid currentColor; border-radius: 8px; padding: .45rem .8rem;
+}
+.toggle-all:hover { background: rgba(255, 255, 255, .12); }
+@media (prefers-reduced-motion: reduce) { .entry .chev { transition: none; } }
+@media (max-width: 40rem) {
+  .entry summary { grid-template-columns: minmax(0, 1fr) 1.5rem; gap: .35rem .75rem; }
+  .entry .rail { grid-auto-flow: column; justify-content: start; gap: .9rem; grid-column: 1; }
+  .entry summary h3 { grid-column: 1; }
+  .entry .chev { grid-column: 2; grid-row: 1 / span 2; align-self: center; margin-top: 0; }
+  .entry[open] .chev { margin-top: .3rem; }
+  .entry .ebody { padding-left: 0; }
+  .toggle-all { margin-left: 0; }
+}
+
+.shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr)); gap: .6rem; margin: .4rem 0 1rem; max-width: 66ch; }
+.shots figure { margin: 0; aspect-ratio: 4 / 3; background: var(--shade); overflow: hidden; border-radius: 6px; }
+.shots img { width: 100%; height: 100%; object-fit: cover; }
+.shots a { display: block; height: 100%; }
+.small-list { list-style: none; padding: 0; margin: 0; max-width: 66ch; }
+.small-list li { padding: .9rem 0; border-top: 1px solid var(--rule); }
+.small-list .t { font-weight: 700; }
+.small-list .m { color: var(--ink-2); font-size: .95rem; font-variant-numeric: tabular-nums; }
+.small-list p { margin: .3rem 0 0; }
+.note { color: var(--ink-2); font-style: italic; max-width: 66ch; }
+
+.gallery { columns: 3 16rem; column-gap: .6rem; }
+.gallery figure { margin: 0 0 .6rem; break-inside: avoid; background: var(--shade); border-radius: 6px; overflow: hidden; }
+.gallery a { display: block; }
+.gallery img { width: 100%; height: auto; }
+figure.missing { aspect-ratio: 3 / 2; display: grid; place-items: center; }
+figure.missing img, figure.missing a { display: none; }
+figure.missing::after { content: attr(data-name); font-size: .78rem; color: var(--ink-2); padding: .5rem; text-align: center; overflow-wrap: anywhere; }
+
+.projects { list-style: none; margin: 0; padding: 0; max-width: 56rem; }
+.projects li { border-top: 1px solid var(--rule); }
+.projects li:last-child { border-bottom: 1px solid var(--rule); }
+.projects a {
+  display: block; padding: 1.1rem 0 1.2rem; text-decoration: none; font-weight: 700; letter-spacing: -.02em;
+  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem); line-height: 1.12; text-wrap: balance;
+}
+.projects a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+
+/* films and video */
+.films { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: .8rem; }
+.vid { position: relative; aspect-ratio: 16 / 9; max-width: 100%; background: var(--shade); border-radius: 8px; overflow: hidden; }
+.vid iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vid-link { display: grid; place-items: center; text-decoration: none; font-weight: 700; color: var(--ink); }
+.vid-link span { padding: .5rem .9rem; border-radius: 6px; background: var(--ground); }
+.project .vid { margin: .4rem 0 1.4rem; max-width: 56rem; }
+.jump { display: flex; gap: 1.2rem; margin-top: .3rem; }
+.section-h + .year { margin-top: 1rem; }
+.jump a { font-weight: 700; text-underline-offset: 4px; text-decoration-thickness: 1.5px; }
+
+/* project pages */
+.crumb { margin: 0 0 .6rem; font-weight: 600; font-size: .98rem; }
+.crumb a { color: var(--ink-2); text-underline-offset: 4px; }
+.project { max-width: 66rem; }
+.project > p, .project > ul { max-width: 66ch; margin: 0 0 1em; }
+.project > ul { padding-left: 1.2rem; }
+.project li { margin-bottom: .4em; }
+.project h2 { margin: 2.6rem 0 .6rem; font-weight: 800; font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.5rem); letter-spacing: -.03em; line-height: 1.05; }
+.project h3 { margin: 2rem 0 .5rem; font-weight: 700; font-size: clamp(1.3rem, 1.1rem + .8vw, 1.7rem); letter-spacing: -.02em; line-height: 1.15; }
+.project h4 { margin: 1.4rem 0 .4rem; font-weight: 700; font-size: 1.08rem; }
+.project > :first-child { margin-top: 0; }
+.gallery.pg { columns: 3 14rem; margin: .6rem 0 1.4rem; }
+.gallery.pg figure { background: var(--paper); box-shadow: inset 0 0 0 1px var(--rule); }
+.btn {
+  display: inline-block; padding: .55rem .95rem; border-radius: 8px; background: var(--ink); color: var(--ground);
+  font-weight: 700; text-decoration: none;
+}
+.btn:hover { opacity: .88; }
+.pdfs { list-style: none; padding: 0; margin: .4rem 0 1.4rem; max-width: 40rem; }
+.pdfs li { display: flex; justify-content: space-between; gap: 1rem; padding: .7rem 0; border-top: 1px solid var(--rule); }
+.pdfs li:last-child { border-bottom: 1px solid var(--rule); }
+.pdfs a { font-weight: 700; overflow-wrap: anywhere; }
+.pdfs span { color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* project write-ups inside a UX/UI drop-down sit a step below the drop-down's own title */
+.ebody.project { max-width: none; }
+.ebody.project h2 { margin: 2rem 0 .5rem; font-size: clamp(1.35rem, 1.15rem + .8vw, 1.8rem); }
+.ebody.project h3 { margin: 1.6rem 0 .4rem; font-size: 1.2rem; }
+.ebody.project h4 { margin: 1.2rem 0 .35rem; font-size: 1.02rem; }
+.ebody.project > :first-child { margin-top: 0; }
+.ux-list details.entry:last-of-type { border-bottom: 1px solid var(--rule); }
+
+dialog.lb { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; }
+dialog.lb::backdrop { background: rgba(8, 14, 12, .93); }
+dialog.lb .stage { width: 100%; height: 100%; display: grid; place-items: center; padding: 3.5rem max(16px, env(safe-area-inset-left, 0px)) 3.5rem max(16px, env(safe-area-inset-right, 0px)); }
+dialog.lb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+dialog.lb button { position: fixed; background: rgba(236, 238, 234, .14); color: #ECEEEA; border: 0; border-radius: 6px; font: 600 1rem var(--font); padding: .55rem .85rem; cursor: pointer; }
+dialog.lb button:hover { background: rgba(236, 238, 234, .26); }
+dialog.lb .close { top: calc(12px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); }
+dialog.lb .prev { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); left: max(12px, env(safe-area-inset-left, 0px)); }
+dialog.lb .next { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); }
+
+footer.foot {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem;
+  margin-top: clamp(3rem, 8vw, 5.5rem); padding-top: 1rem; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: .95rem;
+}
+footer.foot a { color: var(--ink); font-weight: 700; }
+</style><style>:root{--accent:var(--ph);--accent-ink:var(--ph-ink)}@media (prefers-color-scheme: dark){:root:not([data-theme=light]){--accent:#7FC4A4;--accent-ink:#0E1A15}}:root[data-theme=dark]{--accent:#7FC4A4;--accent-ink:#0E1A15}</style>
+<style>:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }</style>
+</head>
+<body>
+<script>
+document.addEventListener('error', function (e) {
+  var t = e.target;
+  if (t && t.tagName === 'IMG') { var f = t.closest('figure'); if (f) f.classList.add('missing'); }
+}, true);
+</script>
+<div class="wrap">
+<header class="top">
+  <a class="name" href="/">Kieran Murphy</a>
+  <nav class="menus" aria-label="Site">
+    <div class="navgroup"><a href="pre-hospital-portfolio.html" aria-current="page"><span class="sw sw-ph" aria-hidden="true"></span>Pre-Hospital</a><a href="surf-portfolio.html"><span class="sw sw-surf" aria-hidden="true"></span>Surf</a><a href="uxui-portfolio.html"><span class="sw sw-ux" aria-hidden="true"></span>UX/UI</a></div>
+    <div class="navgroup apps"><a href="cpg-drill/"><span class="sw sw-cpg" aria-hidden="true"></span>CPG Drill</a><a href="watchkeeping-drill/"><span class="sw sw-watch" aria-hidden="true"></span>Watchkeeping Drill</a><a href="elemental/"><span class="sw sw-elem" aria-hidden="true"></span>Elemental</a></div>
+  </nav>
+</header>
+<main>
+<header class="page-head">
+  <h1>Pre-Hospital Portfolio</h1>
+  <p class="sub">Related to Bsc Paramedic Studies and Continued Professional Development</p>
+  <p class="status"><span class="sw sw-ph" aria-hidden="true"></span>Page is Work in Progress (last updated 7/10/2026)</p>
+</header>
+<section class="intro prose">
+  <h2>Learning Portfolio</h2>
+  <p>I undertook a variety of in-person and online courses, classes, CPC days and self directed research, revision, and training to supplement my formal learning or to recap existing knowledge. Some courses form part of my professional CPC requirements.<br>Listed in reverse chronological order</p>
+</section>
+<div class="summary">
+  <div class="hours">125<small>hours logged across 38 entries</small></div>
+  <nav aria-label="Jump to year"><a href="#y2026">2026</a><a href="#y2025">2025</a><a href="#y2024">2024</a><a href="#smaller">Smaller courses</a></nav>
+  <button class="toggle-all" id="toggle-all" type="button">Expand all</button>
+</div>
+<section class="year" id="y2026" aria-label="2026"><h2>2026</h2><details class="entry">
+  <summary><span class="rail"><b>October 2026</b><span>2 hrs</span></span><h3>Pre Hospital Care Programe - Academic Forum</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I tuned in online to a PCP academic forum :<br>Dr Christine Hymers - PHEM consultant LAA, LAS - discussed :</p>
+<ul>
+<li>Discussed some of the motivations for wanting to work in PHEM (sickest patients, bringing hospital specialties to patient)</li>
+<li>The career route and advice for prospective PHEM applicants</li>
+<li>The important PHEM skills being resilience, teamwork, risk management, communications, primary survey with no advanced diagnostics all on top of being a base specialty expert</li>
+<li>Hardest parts being (breaking bad news, pediatric patients, ethics and uncertainty)</li>
+<li>You need an outlet that is separate to this to not completely burn out or become seriously pshcolgoically affected</li>
+<li>What makes a good fellow : Curiosity, kindness, humility, communication skills, resilience, learning from everything, get feedback and ask questions</li>
+</ul>
+<p>This talk less relevant to me, still some important points about patient care and what makes a good fellow also applies to paramedicine in those "soft" skills in my opinion</p>
+<p>Phil Hall - A tactical paramedic with LAS discussed human factors of pre hospital with case studies and covered cardiac arrest aetiology. I found some of the suggestions for optimising HF for a cardiac arrest interesting such as :</p>
+<ul>
+<li>360 acess</li>
+<li>working with bandwith and pre existing emotional stress</li>
+<li>Importance of communication</li>
+</ul>
+<p>He discussed the SEIP 101 , which I then did further research into.<br>I found the cardiac arrest case studies intresting and had never heard of manual decompression prior.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>October 2026</b><span>8 hrs</span></span><h3>Medi-Connect Conference - Devon Air Ambulance</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended the Medi-Connect Conference 2026 hosted by Devon Air Ambulance in Exeter on the 1st of October 2026. The theme for this years conference was "Beyond Boundaries: partnerships in emergency response"  The first talk was a case study of an RTC from start to emergency call to bystander actions to the prehospital care to follow up. Some points I found interesting were as follows:</p>
+<p>Prof. Tim Nutbeam talked about some of the specific areas of care on this call and discussed some areas investigated by IMPACT:</p>
+<ul>
+<li>There has been a significant amount of guidelines centered around having TXA administered within 2hrs , however it has been shown to be more beneficial given earlier so it should be given ASAP. Projects looking at empowering bystanders to give IM TXA are underway.</li>
+<li>He mentioned nasal packs (which we use) and bite blocks for maxfax #'s in terms of an Airway intervention, I didn't know what the bite block's were so researched them after the conference to familirise myself.</li>
+<li>The current evidence based extrication per the EXIT project (an online course i'm attending at current) specifically he was asked several questions by attendees which were interesting. The first was what exactly do we mean by a 'rapid' extrication and how at present it is not clearly defined and each organisation fire vs ems or even individual clinicians will have differing mental models on what a rapid extrication is. Specifically the fire service may consider cutting the roof off and pulling patient up a hard board from a reclined seat a rapid extrication however when this was measured in practice it takes &gt; 30mins on the other side a 'snatch rescue' which we would consider for cardiac arrest where we break a window and pull the patient from the car. It was suggested that a rapid extrication would be somewhere between those 2. A means of extrication for a patient who is not physically trapped was one team member accesing the patients feet from the passenger side , removing the patients shoes and untangling feet from pedals, the fire service could push the driver door open past its stopper for 180 degree access to driver side and a teardrop barrier from the fire service could be slid under the patient and the patient lifted out on the teardrop onto a waiting board , minimising time patients are trapped and minimising cutting and in escence this is the mindset for any rtc patient, if they can step out they should and if they are unable to step out they need to be out ASAP, not dying in a car while we slowly extricate them. Another question was asked regards what level of monitoring is required for these patients , it was said that monitoring ads 7 mins and delays the fire service, it was suggested that any time critical interventions such as IM TXA or CABC interventions are done and then patient is extricated, it was asked what benefit will knowing the vitals know, especially considering if you determine the patient is crashing you are already extricating the patient as fast as possible but your monitoring is delaying said extrication. Another question was asked regards pelvic binder and it was suggested that in car based RTC's there is a low occurance of pelvic fractures that benefit from a pelvic binder however in the likes of horse riding or motorcycle incidents this is different and a high suspicion should be maintained</li>
+</ul>
+<p>Dr David Potter discussed the patients journey in the hospital:</p>
+<ul>
+<li>specifically the importance of a good ATMIST with time to allow resus to get the pertinent specialties there with the equipment/ blood ready. With a emphasis on how resus should be a pitstop in patients care not a speedbump. He fielded some questions of direct to CT pathways and how sometimes total process optimisation (straight to CT or pre drawn drugs etc) can result in too much momentum being built and no time to review or think or question what is happening right now. Which I found perticulary interesting especially his emphasis on maintaining momentum pre hospitally and balancing interventions vs delaying acess to definitive care. Perfect is the enemy of good enough.</li>
+</ul>
+<p>Prof. Tim Nutbeam spoke again on some interesting points :</p>
+<ul>
+<li>That Interventions should make an immediate difference not just be done  because it was historically done</li>
+<li>Cars collect vast amounts of data from crashes such as duration, weight on seats etc however access is not implemented in the UK</li>
+<li>Over triage is common</li>
+<li>It is really difficult to differentiate big sick from little sick in injured patients, stable vitals means nothing</li>
+<li>Human side of patient care : communication, taking care of them, patient being informed and pain managed, being told they are okay, holding there hand is what patients remember.</li>
+<li>Bystanders should be thanked and supported post incident</li>
+</ul>
+<p>Dr Iona Taylor spoke on the RNLI's interaction with other services and the setup of their vessels and casualty care capabilities.</p>
+<p>ACP Chris Knight from the major trauma ward in Plymouth spoke on the major trauma network in the area and some of the challenges:</p>
+<ul>
+<li>Silver trauma still under triaged for major trauma</li>
+<li>Discussion as to what patients are major trauma vs not is still common and difficult, advised discussing with clinical seniors pre hospital, or specialist care or consultant service that may be available in future</li>
+</ul>
+<p>Hamish Finlay a pilot for Devon Air Ambulance spoke on some of the challenges of HEMS flight :</p>
+<ul>
+<li>What is bad flying weather? , forecasting is majorily important to day to day operations, there are legal limits , fog, cloud and ice are more restrictive to flying than wind</li>
+<li>When requesting a heli consider weather at your location doesn't equate to good flying or weather the heli has to get through</li>
+<li>Landing - HEMS unique with landing in non controlled spaces , size of heli important, day time 2x helicopter lengths space 135 is 14m, at night 2d x 4d</li>
+<li>5s recce assesment :  size, shape, surround, slope, surface (wheels vs skids) // access for clinical recce , security</li>
+<li>Hazards - livestock (will kill chickens), people are eejits, wires, loose rubbish, crops, dust, vehicles, other aircraft, people again, tall things, roads have to be closed both directions,</li>
+<li>Night flying , nvg , different weather limits and landing ( pre surveyed sites ) not absolutely needed, everything slower</li>
+<li>Can be done not equal to should be done</li>
+</ul>
+<div class="shots"><figure data-name="img20261001161941.jpg"><a class="zoom" href="images/cpd/img20261001161941.jpg"><img src="images/cpd/img20261001161941.jpg" alt="Photo from Medi-Connect Conference - Devon Air Ambulance" loading="lazy" decoding="async"></a></figure><figure data-name="img20261001155821.jpg"><a class="zoom" href="images/cpd/img20261001155821.jpg"><img src="images/cpd/img20261001155821.jpg" alt="Photo from Medi-Connect Conference - Devon Air Ambulance" loading="lazy" decoding="async"></a></figure></div></div>
+</details><details class="entry">
+  <summary><span class="rail"><b>September 2026</b><span>1 hr</span></span><h3>Cases in Out of Hospital Cardiac Arrest - EHAAT PCP - Dr Omar Hussain</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>Lost my notes , trying to find them :(</p></div>
+</details><details class="entry">
+  <summary><span class="rail"><b>August 2026</b><span>1 hr</span></span><h3>Precision pathopysiology in out of hospital cardiac arrest - EHAAT PCP - Dr Pete Sherren</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended an online webinar hosted by the Essex and Hertz Air Ambulance in which Dr Pete Sherren discussed precision pathophysiology in out of hospital cardiac arrest. While some of the elements discussed regarding ultrasound and invasive access are well outside my scope, guiding high performance CPR with ETCo2 and Spo2 was very interesting. Overall some of the points I found interesting are as follows:</p>
+<ul>
+<li>Standard cardiac arrest care is one size fits all no nuance to care, specific medications to treat the cause of the arrest would be given minutes before the patient arrests but once they arrest, clinicians are encouraged to follow one size fits all cardiac arrest treatment</li>
+<li>ECPR saves lives</li>
+<li>Treating the cause of arrest electrical metabolic etc or the stage of that arrest</li>
+<li>Pad placement for maxium conduction across cardiac cells not through other tissue</li>
+<li>First stage of CPR , just using a nrbr mask and concentrating on CPR and defib ? Patient will ventilate with CPR</li>
+<li>What drugs actually work? Epi (asthma arrest) , Bicarp?, Thrombylsis? (2 mins earlier the PE patient who was peri arrest would have gotten it , but once they y are in arrest we de-prioritise it??)</li>
+<li>CCSV ?</li>
+<li>Cornonry Perfusion Pressure predicts outcome</li>
+<li>A lines for diagnostic use or monitoring CPR effeciancy</li>
+<li>"Pseodo PEA is rubbish" ?? need updated nomenclature</li>
+<li>Using POCUS to ensure ventricles are being compressed and adjusting as needed, cannot interfere with CPR</li>
+</ul>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>August 2026</b><span>1 hr</span></span><h3>Trauma Primary Survey Revision - Self Directed</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><div class="shots"><figure data-name="img20260817162005.jpg"><a class="zoom" href="images/cpd/img20260817162005.jpg"><img src="images/cpd/img20260817162005.jpg" alt="Photo from Trauma Primary Survey Revision - Self Directed" loading="lazy" decoding="async"></a></figure></div>
+<p>I examined the trauma primary survey as a form of revision prompted by a recent call, first writing out the structure and elements and then running through several scenarios using the whiteboard as a guide to ensure I was including all the finer elements of each section in my scenarios with the aim of building / reinforcing my muscle memory for this critical assessment. I used a The Resus Room Podcast, a Trauma Victoria Early Trauma Care Guideline and notes from a previous course I attended as the source for the written element.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>July 2026</b><span>1 hr</span></span><h3>Current and Future Challenges in Pre-Hospital Care - Dr Gareth Grier - EHAAT PCP</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>This online webinar presented by Dr Gareth Grier from Essex and Herts Air Ambulance highlighted some of the current innovations and future areas in pre hospital care. I found some of the points interesting as follows.</p>
+<ul>
+<li>Impact brain apnea as a critical area of knowledge development for the treatment of head injuries - This is an area I need to do future research/learning.</li>
+<li>Patient and family liaison teams - is this a thing in Ireland ?</li>
+<li>Live video to control rooms to guide bystander CPR/AED / stop the bleed and or better dispatch for critical care resources - Is this a thing in Ireland?</li>
+<li>Attempting to reduce the subjectivity of certain assesments or create definitions ,such as pupilometry. When AI learns from patient care records terms need definitions and currently things like "tension pneumo", "bystander CPR" , "downtime" , "head injury" , "bleeding" are all poorly defined which creates challenge's for implementing AI in emergency/pre hospital medicine compared to fields like oncology/radiology</li>
+<li>Pre hospital feedback to assist in practice. Not widely implemented in Ireland only specific hospitals.</li>
+<li>The importance of reflection on every call to develop practice</li>
+<li>That innovation should benefit the patient ultimately not just be innovation for the sake of innovation or to appear inovative.</li>
+<li>Recent innovations such as simulation and innovations in including VR</li>
+<li>The importance of research and data collection to support this research</li>
+</ul>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>April - July 2026</b><span>3 hrs</span></span><h3>Impact - Extrication Course</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I am in the process of completing the IMPACT Extrication course by the the Centre for Post-Collision Research, Innovation and Translation. The course highlighting evidence based recomdenations for the extrication of patients involved in RTC's.<br>The course covered the following</p>
+<ul>
+<li>The impact of RTC's and the importance of the post collision phase - significant cause of death</li>
+<li>How we (broadly) used to leave dying patients sit in vehicles while slow extrication took place prioritising the reduction in movement with the aim of preventing spinal cord injury (which has a low prevalence) at the expense of delaying care for the injuries that actually killed patients</li>
+<li>The Road Injury Chain of Survival - with an emphasis on early care such as stop the bleed, positioning and IM Txa especially in settings without access to IV access (like Ireland...)</li>
+<li>Time is critical in life threatening injuries - on scene time is the only variable in an ambulance attendance to such case - what are the evidence based interventions that would be valuable in that critical time?</li>
+</ul>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>July 2026</b><span>1 hr</span></span><h3>Medical lessons from the Isle of Man TT racing - Gareth Davies</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended a live webinar hosted by Trauma Care in which Gareth Davies the medical director of the Isle of Man TT spoke on some of the challenges, solutions, resourcing and specific cases from the Isle of Man TT.<br>He highlighted the challenges presented to the Isle of Man healthcare system by the large event, from both major trauma to lower acuity presentations due to the large influx of visitors as well as how the nature of the race and closed public roads poses challenges to emergency service response outside of the race. Some of the measures taken to alleviate this are mutual aid, additional resourcing. He also highlighted that all police officers aswell as the fire service are trained to a level of pre hospital care and it would be plausible to arrive to a scene where the police are often the first responder and the patient being ventilated with an Igel as needed due to the training the police receive.<br>There were several points he made regarding clinical management that I found particularly interesting and are as follows</p>
+<ul>
+<li>They experience increased levels of silver trauma due to visitors and due to the low thresholds of imaging in silver trauma due to the nature of silver trauma and likelihood of patients being anti-coagulated, there is a considerable amount of incidental findings such as previously undiagnosed cancers or lung nodules found in those presenting with trauma.</li>
+<li>Simulation plays a massive role in their preparedness in a variety of situations from trackside even to the helipad and the sim is repeated throughout the event</li>
+<li>Racers in the event experience significant physiological stress with HR of &gt;150 for 2 hours + and temperatures of 40 degrees celclciusus during racing</li>
+<li>Due to the rapid response times many patients are found in the "hyper acute phase of trauma" , several video's where shown and we were asked to imagine the vitals of those patients , it was highlighted how the priority is to address the apnea or dysventilation and circulation.</li>
+<li>Impact brain apnea was mentioned and I had not previously learned about this so I will further research</li>
+<li>Trauma induced secondary cardiac damage was also mentioned and I found this interesting, that haemorrhage can lead to myocyte dysfunction and subsequently myocardial damage .</li>
+</ul>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>June 2026</b><span>2 hrs</span></span><h3>Cardiology and Vascular Medicine - Pocket Book - Compendium Medicine</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>Over several months Ive read through and referenced the Cardiology and Vascular Medicine handbook as a reference for conditions I encounter in practice, revision of conditions I am aware of and further learning of the cardiac system and related presentations as a form of CPD to support my practice.<br>Some key areas I found interesting were :</p>
+<ul>
+<li>Revision of the anatomy and electrical system of the heart</li>
+<li>Revision of the indications, mechanisms and adverse effects of common cardiac medications. Knowledge of these assists in establishing medical history in some patients as well as guiding investigation into patients history, as well as being aware of potential side effects that could result in a call. Medications such as :
+<ul>
+<li>Analgesics (Paracetamol, NSAIDS, Opioids)</li>
+<li>Anticoagulants (Platelet agregate inhibitors, Vitamin K antagonists, Heparin, DOAC's)</li>
+<li>Diuretics (Loop diuretics, SGLT2 inhibitors)</li>
+<li>Beta Blockers (selective and non selective)</li>
+<li>Calcium Antagonists</li>
+<li>RAS inhibitors</li>
+<li>Antiarrythmics</li>
+<li>Lipid Lowering Agents</li>
+</ul></li>
+<li>Revision of differential diagnosis or common complaints such as the different features of chest pain wether that be cardiac, GI, musculoskeletal in nature</li>
+<li>Revision of conditions encountered such as symptomatic hypertension, arrhythmia's (including AF, SVT, bradycardias, AV blocks, ventricular rhythms, BBB's), brugada syndrome, Long QT, pericarditis and HF</li>
+</ul>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>May 2026</b><span>7 hrs</span></span><h3>UCD CEMS IHRB Imediate Care Trauma Course</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended a one day immediate trauma care course by the University College Dublin centre for emergency medical science in collaboration with the Irish Horse Racing Regulatory Board, the course covered topics such as airway management, detailed trauma primary survey, skills rotations and scenarios and updates on the IHRB concussion protocol alongside lectures in trauma care. I found this course incredibly interesting, it was great to practice airway skills and while some where outside my scope of practice (needle decompression) it allowed me a better understanding of these skills to aid me in assisting other clinicians. The scenarios and discussions were brilliant and was great to be able to hear some of the experiences of the IHRB doctors who were attending and see the training they have done so we will have a closer shared mental model when working in the future.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>May 2026</b><span>2 hrs</span></span><h3>Mentorship &amp; Teaching Tips - ECG Hub</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>This online recorded lecture from Dave Irwin was very interesting, while some elements where more applicable to tutors I decided to watch this lecture as I recently had some student paramedics with me and wanted to learn more about guiding them on the road. Some of the key concepts where similar to information I had previously learned or experienced in no pre hospital fields I have other experience in. Some of the points I found very helpful or interesting to me where as follows.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>May 2026</b><span>1 hr</span></span><h3>IPERN Human Factors SIG</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>The Irish Paramedicine Education and Research Network human factors in paramedicine special interest group hosted an online event where 2 researchers Ivan McCann and Samuel Fournier presented different talks . These talks were very interesting, I have been reading a book "Under Pressure : Diving deeper with human factors" by Gareth Lock which examines human factors in scuba diving through several case studies, and seeing the same principles applied to paramedicine was very thought provoking. Some of the key concepts I found intriguing from the IPERN talk where as follows :</p>
+<ul>
+<li>Human factors (HF) is a vast area of study and has its own professionals who soley work/research in that area, a one day training in HF does not adequately train someone in HF as a whole</li>
+<li>HF (in medicine) is not only about patient safety, it encompasses a wide variety of systems</li>
+<li>HF  does not attempt to eliminate human error instead it focuses on designing resilient systems</li>
+<li>HF is made up of organisational factors, physical factors and cognitive factors</li>
+<li>Its easier to change the design of a system than the behaviour of an individual</li>
+<li>To properly implement CRM the system must be changed not just behaviours</li>
+<li>In high acuity low occurrence calls HF system designs can be used to potentially improve practice</li>
+<li>An example of this was designing newborn resus kits where it is unfolded in the correct order of use to reduce task load in the first critical 60s</li>
+</ul>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Jan 2026</b><span>1 hr</span></span><h3>Cardiac Arrest Agitation &amp; CPR Induced Consciousness Module from ECG Hub</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I watched the ECG hub video on the background and management of CPRIC alongside some other considerations. I found this very interesting and while some of the interventions were outside my scope of practice, the general knowledge of this presentation and awareness will be useful if I encounter this.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Jan 2026</b><span>1 hr</span></span><h3>Recap of the pathophysiology and management of decompression sickness</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I mapped out the definitions, basic pathophysiology and recommended management of decompression sickness with the intention of revising the key points and management of this condition. Especially considering the lack of exposure I have had to this potentially life-threatening condition.<br>Sources were BMJ Best Practice and Emed.ie</p>
+<div class="shots"><figure data-name="img-20260125-113441.jpg"><a class="zoom" href="images/cpd/img-20260125-113441.jpg"><img src="images/cpd/img-20260125-113441.jpg" alt="Photo from Recap of the pathophysiology and management of decompression sickness" loading="lazy" decoding="async"></a></figure></div></div>
+</details></section><section class="year" id="y2025" aria-label="2025"><h2>2025</h2><details class="entry">
+  <summary><span class="rail"><b>Oct 2025</b><span>18 hrs</span></span><h3>British Association of Immediate Care - Pre Hospital Care Conference 2025</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended the BASICS Pre-Hospital Care Conference 2025, a 2 day conference held in Sketchley near Birmingham in October 2025. The conference run by the British Association of Immediate Care had some fantastic speakers, ranging from talks on ejection seat injuries, entonox as a greenhouse gas and the environmental concerns with its use, abdominal tourniquet for non compressible heamhorage, pediatric knife crime, IM Txa, healthcare as a target in conflict, resuscitative hysterotomy in TCA with injuries incompatible with life resulting in a positive outcome for the baby, prehospital thrombectomy LVO pathways using a phone line to neurologist and point of care D-dimer and GFAP testing, and thoracotomy decision making. I found the conference very interesting and learned a considerable amount - some elements less relevant to my practice, but definitely a net benefit.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Sept 2025</b><span>2 hrs</span></span><h3>Personal Training</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>Following on from Respond 2025 I felt I needed to recap on the practical elements of certain presentations that I had either never seen and last trained on in college or has been some time since ive had the chance to practice, both of these were HALO presentations - I looked at Newborn resuscitation and a solo (or close to solo) response to a cardiac arrest.</p>
+<p>Newborn resuscitation - I drew a simplified version of the CPG for myself to follow and used an app to simulate the HR on a monitor - I then ran through the CPG several times using different variables in order to try develop some muscle memory and revise the CPG.</p>
+<p>Solo Cardiac Arrest - I used my CFR response bag set out bag and AED as per CPG , I then decided to make some changes to the layout of my bag to better support deployment of critical tools. I ran through an VF arrest - managing compressions , AED and basic airway management, my initial management was based on points from the Cardiac Arrest Masterclass I attended recently (and inline with CPG)  , I simulated help arriving and was able to train in deploying my SGA before continuing. Afterward I completed several minutes of CPR , AED and BVM using a manikan with feedback to ensure I was meeting the best level of CPR I could aswell as minimising hands off chest time (under 10 seconds).</p>
+<div class="shots"><figure data-name="img20250929164223.jpg"><a class="zoom" href="images/cpd/img20250929164223.jpg"><img src="images/cpd/img20250929164223.jpg" alt="Photo from Personal Training" loading="lazy" decoding="async"></a></figure><figure data-name="img20250929160320.jpg"><a class="zoom" href="images/cpd/img20250929160320.jpg"><img src="images/cpd/img20250929160320.jpg" alt="Photo from Personal Training" loading="lazy" decoding="async"></a></figure><figure data-name="img20250929135601.jpg"><a class="zoom" href="images/cpd/img20250929135601.jpg"><img src="images/cpd/img20250929135601.jpg" alt="Photo from Personal Training" loading="lazy" decoding="async"></a></figure><figure data-name="img20250929164252.jpg"><a class="zoom" href="images/cpd/img20250929164252.jpg"><img src="images/cpd/img20250929164252.jpg" alt="Photo from Personal Training" loading="lazy" decoding="async"></a></figure></div></div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Sept 2025</b><span>8 hrs</span></span><h3>Respond 2025 - CFR Conference</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attend Respond 2025 , the national CFR conference , held in mullingar by CFR Ireland. This year the conference was awarding 8 CPD points for PHECC.</p>
+<p>I attended 4 workshops:</p>
+<p>Medico Legal Aspects of CFR - this presentation recapped the Irish legal system and how medical negligence is proven. It was an interesting presentation, especially the segment on how deviation from SOP/CPG would be looked at by the courts. The presentation also gave advice on how to prepare for attending coroners court.</p>
+<p>Supporting the Solo NAS responder - this workshop, looked at how a CFR could best help a solo NAS responder, what tasks they might be asked to do and familiarisation with equipment they may be asked to retrieve. While personally I was familiar with everything discussed, watching the cardiac arrest be simulated, reminded me that I need to do some personal training in the practical aspects of an arrest, as it's been some time since I've either attended or trained an arrest. Also to my personal interest vector change defibrillation was shown, and while I have not seen this in practice, this solidifies my need to learn more about this practice as was evident with my previous CPD.</p>
+<p>Recognition of Death and Dying with Dignity - this workshop  looked at some of the grey areas surrounding recognition of death and DNR's that CFR's might encounter. These points were all absolutely relevant to my practice and I took home several points to consider.</p>
+<p>Newborn Resuscitation - this workshop looked at newborn resuscitation with a high fidelity neonate manikin as well as a manikin for the mother. Dave ran an interactive workshop simulating a newborn who required resuscitation as well as the mother requiring ALS intervention - the task loading, possible pitfalls and priorities were all highlighted for this high acuity low occurrence presentation.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Aug 2025</b><span>1 hr</span></span><h3>Cases from the races</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I watched the Cases from the Races video on youtube a presentation given by the late Dr John Hinds, while a fantastic and insightful video in its own right I took away several things that I felt could supplement my practice. Firstly it was mentioned that a motorcyclist sliding feet first into an object has a very similar mechanism to a feet first fall from height - it is essential to consider high spinal injury or basilar skull fracture. The second relevant point was if you come across a motorcylcist who has lost their boot in a collision then it is essential to consider femur, foot and pelvic fracture due to the nature the leg has to move to allow the boot to be removed in a collision</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Aug 2025</b><span>6 hrs</span></span><h3>Irish Horseracing Regulatory Board - Racecourse Training Course</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>This training day led by Dr Jennifer Pugh, recapped for me medication administration, spinal immobilisation and helmet removal while adding specific considerations for the PPE jockeys' use and how to remove, specific safety considerations for working on a live race track and the role the IHRB physician plays in a multi-disciplinary team dealing with an incident on racetracks. This training course consisted of a sit-down lecture and several interactive scenarios working with full ambulances, grounds staff and vets. The medical side of the scenarios were led by experienced PHECC tutors from the Order of Malta.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Aug 2025</b><span>2 hrs</span></span><h3>Traumatic Cardiac Arrest Masterclass</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>Presented by Dave Irwin from ECG Hub, this live online class - looked at the traumatic cardiac arrest, the potential causes, treatment from the roadside to hospital and walked through each element of the PHECC CPG in detail.</p>
+<p>The main point that I found interesting, and I could see myself going down the same path prior to taking this class, was how the initial steps are so different to a medical arrest, and with how regularly we train for medical cardiac arrest, it would be easy to take the same initial steps when presented with a traumatic arrest, however as was explained and referenced to the CPG the initial arresting of catastrophic or suspected catastrophic bleeding is vital even at the expense of delaying BLS or ALS and while with medical cardiac arrests our standard treatment involves a "stay and play" aproach - it was emphasised how important rapid access to critcal care is (wether that be on the road or in ED). I will make sure to keep this in mind for my future practice that viable traumatic cardiac arrests are transported with urgency to a suitable facility, and the initial priority is addressing catastrophic bleeding.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>June 2025</b><span>1 hr</span></span><h3>ERC Drowning Webinar</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended a webinar from the European Resuscitation Council on Drowning, several clinicians and researchers presented different topics. The topics discussed were the physiology and pathophysiology of drowning, prehospital care in drowning and the drowning-associated cardiac arrest (DACA) score.</p>
+<p>I found this webinar very interesting, especially with my interest and experience in SAR, and lifesaving.<br>The key points that I made sure to note were :</p>
+<ol>
+<li>While ice cold drownings can survive long submersion times, patients with prolonged submersion greater than 25 minutes in UK or Irish waters are unlikely to have meaningful outcomes. The Dr explained that the UK uses this to guide rescue vs recovery against risk to the rescuer in SAR. My CPG's state that resuscitation should not be ceased on "cold water" drownings and all of our coastal waters would be considered cold - I wonder if this will be clarified in the future or amended, it is absolutely an area for me to further research. The presenter's opinion was that a patient who drowned in UK coastal waters who is in asystole from first assessment, is dead while running a resuscitation on scene is reasonable, transporting them to hospital <em>only</em> because they have been submersed is futile.</li>
+<li>The webinar also highlighted the pathophysiology behind why we ventilate a drowing cardiac arrest with 5 ventialitions prior to commencing standard BLS - this was explained as in a medical cardiac arrest - there is still a substantial amount of oxygen in the body to perfuse the systems wheras in a drowing due to the respiratory nature there is very little oxygen left, hence our inital priority is ventilation</li>
+</ol>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>June 2025</b><span>3 hrs</span></span><h3>ECG 1</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I am in the process of completing ECG 1 a course by ECG hub, which recaps the physiology of the heart, the electrical pathways, lead II rhythm identification and best practice for ECG acquisition. I will complete this section once I have finished the course. This course recaps on knowledge I already had from formal education/training.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>June 2025</b><span>3 hrs</span></span><h3>Cardiac Arrest Masterclass</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I watched a recording of this live class as I was unable to attend live , this class presented by the ECG hub looked at:</p>
+<blockquote><p>"With the release of the Draft 2025 ERC Resuscitation Guidelines , this recording of our Live zoom class on Cardiac Arrest Management discussed both the current standards and had an early look into the future with some changes that are likely going to be implemented at the 2025 ILCOR guidelines. We discussed management of both pre hospital and in hospital cardiac arrest management from a practical perspective and explored the difference and similarities in both spaces!"</p><cite>Text from the ECG Hub</cite></blockquote>
+<p>Once specific point that I felt was very useful for my practice - was that in a cardiac arrest it can be easy to get caught up with the need to address airway and breathing , however the initial few minutes the airway bag should remain closed (in a 2 person response) as the first priority is confirming the pt is in arrest , starting compression, getting pads on, and delivering a shock if able, then airway should be addressed. This was referenced to the CPG's and is the process the cpg follows through. There was smaller points about how the initial concentration in a shockable rhythm should be shocks not ALS or an advanced airway, how to check if an SGA is leaking, where to position a kit dump, and to keep the BVM mask after moving to an SGA. It mentioned in arrest an ETCO2 of 1.2+ is a sign of perfusion and if ETco2 is dropping with a good airway to check cpr or lucas placement.</p>
+<p>There was an additional point about expected changes based on the draft publication of the ERC 2025 guidelines, one of the potential changes to resus was a vector change after 3 unsuccessful shocks in vfib. This is interesting to me and I will look into the effects of vector change defibrillation on recurrent or refractory VF.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>April 2025</b><span>8 hrs</span></span><h3>Difficult Airway</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I took The Difficult Airway by EMS a course taught by Dx2 , I took the one day version, which covered content more relevant to my clinical grade. The course covered how an airway can be difficult, techniques to tackle this like ramping, practice using et tubes and SGA on a difficult airway manikin and a high-fidelity simulation of using SALAD. This course not only increased my knowledge of how to anticipate and approach a difficult airway but also refreshed my basic airway management skills while also giving me a better context to be able to assist an ALS practitioner on scene.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>March 2025</b><span>4 hrs</span></span><h3>UCC Critical Care Conference</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended the day 1 of the UCC Emergency Care Society Critical Care Conference in 2025, there was a variety of talks from HEMS and retrieval doctors alongside critical care paramedics and provided and interesting and informative evening.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>March 2025</b><span>8 hrs</span></span><h3>Phlebotomy and IV Cannulation</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended a Phleblotomy and IV Cannulation course held by ER Training Solutions in UCC , the course was mainly targeted at those looking to work in hospitals or in GP surgeries. However after the day spent covering the physiology , finding an appropriate vein, solutions to tackle people you anticipate to be difficult and then the practical of how to take blood or how to cannulate. A large amount of the course was spent practicing on manikans or practicing finding veins on the other course participant's. Since I have not had the opportunity to put these skills into practice since completion the course and gaining experience, I would not feel comfortable using these skills however I did come away from the course with a greater appreciation for the difficulties and some practical experience that will benefit me in assisting advanced paramedics on the road.</p>
+</div>
+</details></section><section class="year" id="y2024" aria-label="2024"><h2>2024</h2><details class="entry">
+  <summary><span class="rail"><b>Sept 2024</b><span>8 hrs</span></span><h3>Rescue Organisation Ireland CPC day</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended a Rescue Organisation Ireland CPC day in the Civil Defense Compound in the Phoenix Park. The day contained a variety of scenario's from properly doing the recovery position, to putting major emergency triage into practice, to learning how the fire service complete complicated extrications from heights or slopes and the ability to partake in a exercise in the bunker in the compound. The day started with case study from a DFB tutor that concentrated on significant injury at a major fire and looked at everything from dispatch to arrival at ED. Finally I participated in a multi practitioner scenario treating an electrical burns patient, that used real patients with realistic injury makeup. This experience of high fidelity simulation in scenarios was very interesting, my main takeaway was how important CRM and team management is in incidents with large numbers of practitioners present.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>Sept 2024</b><span>8 hrs</span></span><h3>Respond 2024</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended Respond 2024 a conference held by CFR Ireland, I thoroughly enjoyed the conference and found workshops on airway management and a workshop by a Garda on considerations hangings. However the keynote speaker Frank Chege a patient liason nurse with the London Air Ambulance was absolutely fantastic and made me rethink some of my practice. Frank highlighted the human side of those critical calls from how scary it is to be in a vaccum mattress or how that seriously injured patients phone thats ringing in the background as you work , while it mightnd be your priority, it might be the last opportunity for that persons loved ones to speak to that patient, perhaps the pt will be intubated and pass away in hospital soon after, that one chance to speak to their loved one can make the world of difference. It changed the way I thought about what previously where distractions to treating a critically ill patient.</p>
+</div>
+</details><details class="entry">
+  <summary><span class="rail"><b>April 2024</b><span>4 hrs</span></span><h3>Pre Hosptial Grand Rounds Midlands - Brugada Syndrome</h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose">
+<p>I attended a case review hosted by Pre-hospital Grand Rounds Midlands in NASC Tullamore - this case study focused on a sudden cardiac arrest due to Brugada syndrome and had presentations by the family of the patient, treating paramedics and the consultant cardiologist.</p>
+</div>
+</details></section>
+<section class="year" id="smaller" aria-label="Smaller Courses and CPD">
+  <h2 class="section-h">Smaller Courses and CPD</h2>
+  <p class="note">Ive stopped updating this section - I listen to every new episode of The Resus Room and complete some small courses on HseLand or BMJ Learning</p>
+  <details class="entry small">
+  <summary><span class="rail"><b>01/2026</b><span>1 hr</span></span><h3>Breaking bad news: a how to do it guide<small>BMJ Learning (British Medical Journal)</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>This peer-reviewed digital course from BMJ Learning gives practical advise and tools to use when breaking bad news in a healthcare setting. I found this informative and beneficial.</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>03/2025</b><span>1 hr</span></span><h3>Airways management: supraglottic airway devices<small>BMJ Learning (British Medical Journal)</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>Learn when to use a supraglottic airway device in relation to the resuscitation algorithm, and in an emergency situation.</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>03/2025</b><span>1 hr</span></span><h3>Step by step: how to diagnose pulmonary embolism<small>BMJ Learning (British Medical Journal)</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>A practical guide for GPs on when to consider pulmonary embolism, how to assess and score a patient’s risk of pulmonary embolism, when to arrange a D-dimer test if available, and when to refer a patient for imaging to confirm the diagnosis.</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>03/2025</b><span>1 hr</span></span><h3>Anaphylaxis: a guide to management<small>BMJ Learning (British Medical Journal)</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>Anaphylaxis is acute and life-threatening. Know how to treat adults with anaphylaxis in hospital and which drugs to avoid.</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>03/2025</b><span>1 hr</span></span><h3>Step by step: A guide to diagnosing heart failure<small>BMJ Learning (British Medical Journal)</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>This module offers a practical, step by step guide for GPs on making a diagnosis of heart failure when a patient presents with suggestive symptoms in primary care. It covers how to spot the diagnosis, ruling out important differential diagnoses, what tests to request in primary care, and when to refer your patient for an echocardiogram and to a specialist team to confirm the diagnosis.</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>01/2025</b><span>1 hr</span></span><h3>Penthrox Certificate of Competencex<small>Penthrox</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>The Galen Penthrox University is an online hub which currently includes an administration course on how to safely and effectively administer Penthrox.</p></div>
+</details>
+  <p class="note" style="margin-top:1.5rem">Some additional CPD listed below from the resus room, I have listened to several dozen episodes below is a non-exhaustive list of some CPD:</p>
+  <details class="entry small">
+  <summary><span class="rail"><b>08/2025</b><span>1 hr</span></span><h3>August 2025; Papers of the Month<small>The Resus Room Podcast</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>First up a paper to challenge the way we think about rhythm recognition in cardiac arrest to start with, looking at the rate of VF identified on echo but not on the defibrillator. We have a huge amount of strategies to rule out acute coronary syndrome in the UK, our next paper looks at the clinical effectiveness of these, whilst also giving us some hugely important information about the incidence of ACS in those presenting to Eds. Finally we look at a paper quantifying the effect of hypertonic saline in those patients with a TBI.</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>07/2025</b><span>1 hr</span></span><h3>Advancing Cardiac Arrest Care, SPEAR; Roadside to Resus<small>The Resus Room Podcast</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>Ultimately in the episode we navigate through to the delivery of endovascular resuscitation both pre and in-hospital, building on the fundamentals of care and logistics which enable its delivery. We'll be covering; Blood pressure monitoring both invasive and non-invasive, the evidence and the cohort of patients we should be targeting with invasive blood pressure monitoring, Delivering complex medical interventions in unpredictable circumstances and environments , Balancing the benefits of interventions with time required and workflow, REBOA for medical arrests, the theory and the ERICA trial, Improving recognition of ROSC, The SPEAR course , How to prepare services and departments for upcoming advances in resuscitation</p></div>
+</details><details class="entry small">
+  <summary><span class="rail"><b>05/2025</b><span>1 hr</span></span><h3>GCS; Roadside to Resus<small>The Resus Room Podcast</small></h3><span class="chev" aria-hidden="true"></span></summary>
+  <div class="ebody prose"><p>The GCS has been a fundamental part of assessing patients with altered consciousness for over 50 years. You’ll find it in trauma scores, neurology exams and practically every prehospital and ED handover. But here's the thing, is it as reliable and useful as we think?<br>In this episode, we’ll explore the origins of the scale, what it was designed for and how it’s been used (and maybe misused...) since. We take a look at how reproducible it really is, particularly when different clinicians score the same patient. Spoiler alert: it’s not always as consistent as you might hope!<br>We’ll also unpack the individual components; eyes, voice, motor and ask if they all carry equal weight, or are some more prognostically useful than others? Because a GCS of 4 isn’t always the same GCS of 4, depending on how you get there…<br>We’ll be looking at real-world implications, how we make decisions around airway management, imaging, and referral, all based on that one number.<br>So whether you’re in prehospital care, the ED, or intensive care - stick with us as we try to answer the question: is the GCS still doing what we need it to, or is it time to move on?</p></div>
+</details>
+</section>
+</main>
+<footer class="foot">
+  <a href="https://linkedin.com/in/kieranmurphy151">LinkedIn</a>
+  <span>Kieran Murphy 2026</span>
+</footer>
+</div>
+<dialog class="lb" id="lb" aria-label="Photo viewer">
+  <div class="stage"><img id="lb-img" alt=""></div>
+  <button class="close" id="lb-close" type="button">Close</button>
+  <button class="prev" id="lb-prev" type="button">Previous</button>
+  <button class="next" id="lb-next" type="button">Next</button>
+</dialog>
+<script>
+(function () {
+  var dlg = document.getElementById('lb'), img = document.getElementById('lb-img');
+  if (!dlg || !dlg.showModal) return;
+  var links = [], i = 0;
+  function list() { return Array.prototype.filter.call(document.querySelectorAll('a.zoom'), function (a) { return !a.closest('figure.missing'); }); }
+  function show(n) { links = list(); if (!links.length) return; i = (n + links.length) % links.length; img.src = links[i].href; img.alt = links[i].querySelector('img').alt || ''; }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.zoom'); if (!a) return;
+    e.preventDefault(); links = list(); show(links.indexOf(a)); dlg.showModal();
+  });
+  document.getElementById('lb-close').onclick = function () { dlg.close(); };
+  document.getElementById('lb-prev').onclick = function () { show(i - 1); };
+  document.getElementById('lb-next').onclick = function () { show(i + 1); };
+  dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target.classList.contains('stage')) dlg.close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!dlg.open) return;
+    if (e.key === 'ArrowLeft') show(i - 1);
+    if (e.key === 'ArrowRight') show(i + 1);
+  });
+})();
+</script>
+<script>
+(function () {
+  var all = document.querySelectorAll('details.entry'), btn = document.getElementById('toggle-all');
+  function sync() {
+    if (!btn) return;
+    var open = Array.prototype.every.call(all, function (d) { return d.open; });
+    btn.textContent = open ? 'Collapse all' : 'Expand all';
+  }
+  if (btn) btn.addEventListener('click', function () {
+    var open = btn.textContent === 'Expand all';
+    all.forEach(function (d) { d.open = open; }); sync();
+  });
+  all.forEach(function (d) { d.addEventListener('toggle', sync); });
+  // a link to one entry (#surf-store) opens it and brings it into view
+  function openHash() {
+    var id = location.hash.slice(1); if (!id) return;
+    var t = document.getElementById(id);
+    if (t && t.tagName === 'DETAILS') { t.open = true; t.scrollIntoView(); }
+  }
+  openHash(); window.addEventListener('hashchange', openHash);
+})();
+</script>
+</body>
+</html>
