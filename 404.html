@@ -31,6 +31,7 @@
   --cpg: #EFD449;  --cpg-ink: #1A1A12;
   --watch: #12202A; --watch-ink: #E7EDEF;
   --elem: #CEC3EE; --elem-ink: #1D1631;
+  --swell: #2C6C8C; --swell-ink: #F1F6F7; --swell-hot: #F2894E;
   --accent: var(--ink);
   --shock: #D9480F; --shock-glow: rgba(217, 72, 15, .55);
   --font: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -62,9 +63,10 @@ a { color: inherit; }
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: clamp(1.25rem, 3.5vw, 2.75rem) 2.5rem;
 }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .sw { display: inline-block; width: .62em; height: .62em; border-radius: 2px; flex: none; }
 .sw-ph { background: var(--ph); } .sw-surf { background: var(--surf); } .sw-ux { background: var(--ink); }
-.sw-cpg { background: var(--cpg); } .sw-watch { background: var(--watch); outline: 1px solid var(--rule); } .sw-elem { background: var(--elem); }
+.sw-cpg { background: var(--cpg); } .sw-watch { background: var(--watch); outline: 1px solid var(--rule); } .sw-elem { background: var(--elem); } .sw-swell { background: var(--swell); }
 
 /* ---------- home: hero ---------- */
 .hero { display: grid; gap: clamp(.6rem, 1.5vw, 1rem); padding-bottom: clamp(1.75rem, 4vw, 3rem); }
@@ -103,16 +105,14 @@ a { color: inherit; }
 .bento { display: grid; gap: 12px; }
 .bento.port { grid-template-columns: 1.15fr 1fr; grid-template-rows: auto auto; }
 .bento.port .t-ph { grid-row: span 2; }
-.bento.apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bento.apps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 60rem) {
   .bento.port { grid-template-columns: 1fr 1fr; }
   .bento.port .t-ph { grid-row: auto; grid-column: 1 / -1; }
-  .bento.apps { grid-template-columns: 1fr 1fr; }
-  .bento.apps .tile:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 40rem) {
   .bento.port, .bento.apps { grid-template-columns: minmax(0, 1fr); }
-  .bento.port .t-ph, .bento.apps .tile:last-child { grid-column: auto; }
+  .bento.port .t-ph { grid-column: auto; }
 }
 
 .tile {
@@ -140,6 +140,9 @@ a.tile:hover { transform: translateY(-3px); }
 .t-cpg { --bg: var(--cpg); --fg: var(--cpg-ink); }
 .t-watch { --bg: var(--watch); --fg: var(--watch-ink); }
 .t-elem { --bg: var(--elem); --fg: var(--elem-ink); }
+.t-swell { --bg: var(--swell); --fg: var(--swell-ink); }
+.tile .meta .lockm { display: inline-flex; align-items: center; gap: .35rem; }
+.tile .meta .lockm svg { width: .95em; height: .95em; flex: none; }
 @media (max-width: 60rem) { .t-ph { min-height: 22rem; } }
 @media (max-width: 40rem) { .tile { min-height: 13rem; } .t-ph { min-height: 17rem; } }
 
@@ -164,6 +167,11 @@ a.tile:hover .draw, a.tile:focus-visible .draw { animation: draw 1.4s ease-out; 
 .orbit { transform-box: view-box; transform-origin: 168px 66px; animation: spin 4s linear infinite; }
 .orbit-out { animation-duration: 11s; animation-direction: reverse; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Swell Window: the swell arrow swings a little, and the bars that could be working glow */
+.swing { transform-box: view-box; transform-origin: 186px 32px; animation: swing 5s ease-in-out infinite; }
+@keyframes swing { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+.hot { animation: hot 2.6s ease-in-out infinite; }
+@keyframes hot { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
 .soon-tag {
   display: inline-block; font-size: .8rem; font-weight: 700; line-height: 1; padding: .4em .6em .35em;
   border-radius: 3px; background: var(--elem-ink); color: var(--elem); white-space: nowrap;
@@ -175,6 +183,7 @@ a.tile:hover .draw, a.tile:focus-visible .draw { animation: draw 1.4s ease-out; 
   .abc { animation: none; opacity: 1; }
   .tick { animation: none; transform: none; }
   .orbit { animation: none; }
+  .swing, .hot { animation: none; }
 }
 
 /* ---------- inner pages ---------- */
@@ -380,7 +389,7 @@ document.addEventListener('error', function (e) {
   <a class="name" href="./">Kieran Murphy</a>
   <nav class="menus" aria-label="Site">
     <div class="navgroup"><a href="pre-hospital-portfolio.html"><span class="sw sw-ph" aria-hidden="true"></span>Pre-Hospital</a><a href="surf-portfolio.html"><span class="sw sw-surf" aria-hidden="true"></span>Surf</a><a href="uxui-portfolio.html"><span class="sw sw-ux" aria-hidden="true"></span>UX/UI</a></div>
-    <div class="navgroup apps"><a href="cpg-drill/"><span class="sw sw-cpg" aria-hidden="true"></span>CPG Drill</a><a href="watchkeeping-drill/"><span class="sw sw-watch" aria-hidden="true"></span>Watchkeeping Drill</a><a href="elemental/"><span class="sw sw-elem" aria-hidden="true"></span>Elemental</a></div>
+    <div class="navgroup apps"><a href="cpg-drill/"><span class="sw sw-cpg" aria-hidden="true"></span>CPG Drill</a><a href="watchkeeping-drill/"><span class="sw sw-watch" aria-hidden="true"></span>Watchkeeping Drill</a><a href="elemental/"><span class="sw sw-elem" aria-hidden="true"></span>Elemental</a><a href="surf/"><span class="sw sw-swell" aria-hidden="true"></span>Swell Window</a></div>
   </nav>
 </header>
 <main>

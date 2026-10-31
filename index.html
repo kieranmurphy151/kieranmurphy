@@ -30,6 +30,7 @@
   --cpg: #EFD449;  --cpg-ink: #1A1A12;
   --watch: #12202A; --watch-ink: #E7EDEF;
   --elem: #CEC3EE; --elem-ink: #1D1631;
+  --swell: #2C6C8C; --swell-ink: #F1F6F7; --swell-hot: #F2894E;
   --accent: var(--ink);
   --shock: #D9480F; --shock-glow: rgba(217, 72, 15, .55);
   --font: "Bricolage Grotesque", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -61,9 +62,10 @@ a { color: inherit; }
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: clamp(1.25rem, 3.5vw, 2.75rem) 2.5rem;
 }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .sw { display: inline-block; width: .62em; height: .62em; border-radius: 2px; flex: none; }
 .sw-ph { background: var(--ph); } .sw-surf { background: var(--surf); } .sw-ux { background: var(--ink); }
-.sw-cpg { background: var(--cpg); } .sw-watch { background: var(--watch); outline: 1px solid var(--rule); } .sw-elem { background: var(--elem); }
+.sw-cpg { background: var(--cpg); } .sw-watch { background: var(--watch); outline: 1px solid var(--rule); } .sw-elem { background: var(--elem); } .sw-swell { background: var(--swell); }
 
 /* ---------- home: hero ---------- */
 .hero { display: grid; gap: clamp(.6rem, 1.5vw, 1rem); padding-bottom: clamp(1.75rem, 4vw, 3rem); }
@@ -102,16 +104,14 @@ a { color: inherit; }
 .bento { display: grid; gap: 12px; }
 .bento.port { grid-template-columns: 1.15fr 1fr; grid-template-rows: auto auto; }
 .bento.port .t-ph { grid-row: span 2; }
-.bento.apps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bento.apps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 60rem) {
   .bento.port { grid-template-columns: 1fr 1fr; }
   .bento.port .t-ph { grid-row: auto; grid-column: 1 / -1; }
-  .bento.apps { grid-template-columns: 1fr 1fr; }
-  .bento.apps .tile:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 40rem) {
   .bento.port, .bento.apps { grid-template-columns: minmax(0, 1fr); }
-  .bento.port .t-ph, .bento.apps .tile:last-child { grid-column: auto; }
+  .bento.port .t-ph { grid-column: auto; }
 }
 
 .tile {
@@ -139,6 +139,9 @@ a.tile:hover { transform: translateY(-3px); }
 .t-cpg { --bg: var(--cpg); --fg: var(--cpg-ink); }
 .t-watch { --bg: var(--watch); --fg: var(--watch-ink); }
 .t-elem { --bg: var(--elem); --fg: var(--elem-ink); }
+.t-swell { --bg: var(--swell); --fg: var(--swell-ink); }
+.tile .meta .lockm { display: inline-flex; align-items: center; gap: .35rem; }
+.tile .meta .lockm svg { width: .95em; height: .95em; flex: none; }
 @media (max-width: 60rem) { .t-ph { min-height: 22rem; } }
 @media (max-width: 40rem) { .tile { min-height: 13rem; } .t-ph { min-height: 17rem; } }
 
@@ -163,6 +166,11 @@ a.tile:hover .draw, a.tile:focus-visible .draw { animation: draw 1.4s ease-out; 
 .orbit { transform-box: view-box; transform-origin: 168px 66px; animation: spin 4s linear infinite; }
 .orbit-out { animation-duration: 11s; animation-direction: reverse; }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* Swell Window: the swell arrow swings a little, and the bars that could be working glow */
+.swing { transform-box: view-box; transform-origin: 186px 32px; animation: swing 5s ease-in-out infinite; }
+@keyframes swing { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+.hot { animation: hot 2.6s ease-in-out infinite; }
+@keyframes hot { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
 .soon-tag {
   display: inline-block; font-size: .8rem; font-weight: 700; line-height: 1; padding: .4em .6em .35em;
   border-radius: 3px; background: var(--elem-ink); color: var(--elem); white-space: nowrap;
@@ -174,6 +182,7 @@ a.tile:hover .draw, a.tile:focus-visible .draw { animation: draw 1.4s ease-out; 
   .abc { animation: none; opacity: 1; }
   .tick { animation: none; transform: none; }
   .orbit { animation: none; }
+  .swing, .hot { animation: none; }
 }
 
 /* ---------- inner pages ---------- */
@@ -423,7 +432,7 @@ document.addEventListener('error', function (e) {
   <path d="M0 112 q 14 -6 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"/>
   <path d="M0 126 q 14 -5 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0 t 28 0" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="2"/>
   <text x="138" y="16" font-size="12" font-weight="600" fill="currentColor" fill-opacity=".85">Fl(2) 10s</text>
-</svg></div><div class="meta"><span>Revision app</span><span class="go">Open</span></div></a><a class="tile t-elem" href="elemental/" data-trace="mix"><div class="tt"><h3>Elemental</h3><span class="d">GEM entry test prep in short daily bites</span></div><div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="Periodic table tile for carbon beside a carbon atom with two inner and four outer electrons">
+</svg></div><div class="meta"><span>Revision app</span><span class="go">Open</span></div></a><a class="tile t-elem" href="elemental/" data-trace="mix"><div class="tt"><h3>Elemental</h3></div><div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="Periodic table tile for carbon beside a carbon atom with two inner and four outer electrons">
   <rect x="14" y="14" width="96" height="104" rx="6" fill="none" stroke="currentColor" stroke-width="2.4"/>
   <text x="24" y="34" font-size="14" font-weight="700" fill="currentColor">6</text>
   <text x="62" y="84" font-size="48" font-weight="800" text-anchor="middle" fill="currentColor">C</text>
@@ -434,7 +443,16 @@ document.addEventListener('error', function (e) {
   <circle cx="168" cy="66" r="7.5" fill="currentColor"/>
   <g class="orbit orbit-in"><circle cx="185.0" cy="66.0" r="3.4" fill="currentColor"/><circle cx="151.0" cy="66.0" r="3.4" fill="currentColor"/></g>
   <g class="orbit orbit-out"><circle cx="192.0" cy="90.0" r="3.6" fill="currentColor"/><circle cx="144.0" cy="90.0" r="3.6" fill="currentColor"/><circle cx="144.0" cy="42.0" r="3.6" fill="currentColor"/><circle cx="192.0" cy="42.0" r="3.6" fill="currentColor"/></g>
-</svg></div><div class="meta"><span>Revision app</span><span class="go">Open</span></div></a></div>
+</svg></div><div class="meta"><span><span class="lockm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.2" fill="currentColor" stroke="none"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Revision app<span class="vh">, password needed</span></span></span><span class="go">Open</span></div></a><a class="tile t-swell" href="surf/" data-trace="swell"><div class="tt"><h3>Swell Window</h3><span class="d">Surf forecasts for Waterford, Kerry, Clare and Donegal</span></div><div class="art"><svg viewBox="0 0 220 130" role="img" aria-label="A week of swell forecast bars with three highlighted, and a swell direction dial">
+  <rect x="14" y="91.6" width="11" height="26.4" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="30" y="85.0" width="11" height="33.0" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="46" y="71.8" width="11" height="46.2" rx="2" fill="currentColor" fill-opacity=".42"/><rect class="hot" x="62" y="54.2" width="11" height="63.8" rx="2" fill="var(--swell-hot)" fill-opacity="1"/><rect class="hot" x="78" y="43.2" width="11" height="74.8" rx="2" fill="var(--swell-hot)" fill-opacity="1"/><rect class="hot" x="94" y="49.8" width="11" height="68.2" rx="2" fill="var(--swell-hot)" fill-opacity="1"/><rect x="110" y="65.2" width="11" height="52.8" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="126" y="78.4" width="11" height="39.6" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="142" y="87.2" width="11" height="30.8" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="158" y="80.6" width="11" height="37.4" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="174" y="69.6" width="11" height="48.4" rx="2" fill="currentColor" fill-opacity=".42"/><rect x="190" y="76.2" width="11" height="41.8" rx="2" fill="currentColor" fill-opacity=".42"/>
+  <path class="draw" style="--len:320" d="M19.5,84.6 L35.5,78.0 L51.5,64.8 L67.5,47.2 L83.5,36.2 L99.5,42.8 L115.5,58.2 L131.5,71.4 L147.5,80.2 L163.5,73.6 L179.5,62.6 L195.5,69.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+  <line x1="8" y1="119" x2="208" y2="119" stroke="currentColor" stroke-opacity=".5" stroke-width="1.4"/>
+  <circle cx="186" cy="32" r="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-opacity=".7"/>
+  <text x="186" y="10" font-size="8" font-weight="700" text-anchor="middle" fill="currentColor" fill-opacity=".8">N</text>
+  <g class="swing"><path d="M172 41 L196 26" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M196 26 l-9 1 l5 7 z" fill="currentColor"/></g>
+  <text x="160" y="36" font-size="10" font-weight="700" text-anchor="end" fill="currentColor" fill-opacity=".85">SW 13s</text>
+</svg></div><div class="meta"><span><span class="lockm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.2" fill="currentColor" stroke="none"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>Surf forecast<span class="vh">, password needed</span></span></span><span class="go">Open</span></div></a></div>
   </section>
 </main>
 <footer class="foot">

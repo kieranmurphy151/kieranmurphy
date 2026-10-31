@@ -1,7 +1,7 @@
 {
   "name": "Elemental",
   "short_name": "Elemental",
-  "description": "Bite-sized GAMSAT prep: 15–90 second bites across all three sections.",
+  "description": "Revision in short daily bites.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

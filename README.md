@@ -1,8 +1,15 @@
 # kieranmurphy.ie
 
 Kieran Murphy's personal site: a menu home page, the Pre-Hospital, Surf and UX/UI portfolios,
-and links to the CPG Drill, Watchkeeping Drill and Elemental revision apps.
+and the apps: CPG Drill, Watchkeeping Drill, Elemental and Swell Window (in `surf/`).
 Plain HTML and CSS, no build step. GitHub Pages serves this folder as it is.
+
+Elemental and Swell Window open behind a simple password screen, `gate.js`. Each one loads it with this
+line at the top of its `<head>`. Keep that line if either app is replaced with a new version:
+
+    <script src="../gate.js" data-app="Swell Window"></script>
+
+It only keeps casual visitors out. The password is checked in the browser, so it isn't real security.
 
 ## Publish it on GitHub Pages
 
